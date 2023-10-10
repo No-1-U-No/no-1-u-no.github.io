@@ -6,3 +6,4 @@
 
 ## Projects
 - [Interactive Scene](02-scene)
+- [Arrays/Objects Assignment](04-arrays-objects-assignment)
