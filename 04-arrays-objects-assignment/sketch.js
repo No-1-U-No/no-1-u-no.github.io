@@ -15,9 +15,11 @@ let gameScreen = instructions;
 
 let gameTitleSize;
 let gameTitleYcor;
+let gameDescriptionSize;
+let gameDescriptionYcor;
 
 function preload() {
-  let mom = loadImage("frustrated-mom.png");
+  let dad = loadImage("annoyed-dad.png");
   let boy = loadImage("annoying-boy.png");
 }
 
@@ -32,17 +34,23 @@ function windowResized() {
 }
 
 function draw() {
-  background(220);
+  background(0);
   instructions();
 }
 
 function values() {
-  gameTitleSize = 0.03125*width;
+  gameTitleSize = 0.0625*width;
   gameTitleYcor = height/77.5;
+  gameDescriptionSize = 0.03125*width;
+  gameDescriptionYcor = height/2;
 }
 
 function instructions() {
   textSize(gameTitleSize);
   textAlign(CENTER);
-  text("CHILDREN'S CHALLENGE", 0, gameTitleYcor, width, height);
+  fill("red");
+  text("DOUBLE TROUBLE", 0, gameTitleYcor, width, height);
+
+  textSize(gameDescriptionSize);
+  text("Dad needs to go to the grocery store, but his twin boys are extremely difficult when it comes to creating the list. One boy asks for too many things, while the other complains about nearly anything his brother suggests. Both behaviours frustrate Dad to an extremity.", 0, gameDescriptionYcor, width, height);
 }
