@@ -13,14 +13,34 @@
 
 let gameScreen;
 
+let dad;
+let boy;
+
 let gameTitleSize;
 let gameTitleYcor;
 let gameInstructionsSize;
 let gameDescriptionYcor;
+let gameInstructionsYcor;
+let footerSize;
+let footerYcor;
+
+let dadWidth;
+let dadHeight;
+let dadXcor;
+let dadYcor;
+
+let boyWidth;
+let boyHeight;
+let boyYcor;
+let firstBoyXcor;
+let secondBoyXcor;
 
 function preload() {
-  let dad = loadImage("annoyed-dad.png");
-  let boy = loadImage("annoying-boy.png");
+  // Dad image source: https://media.istockphoto.com/id/1130554249/photo/elderly-man-in-white-shirt-with-his-arms-crossed-looking-depressed-and-annoyed.jpg?s=612x612&w=0&k=20&c=MJu2j1FeHF6vIKeiizq-enVRf6aotyRBVVNILldtZds=
+  // Boy image source: https://metro.co.uk/wp-content/uploads/2015/08/child-screaming.jpg
+
+  dad = loadImage("annoyed-dad.png");
+  boy = loadImage("annoying-boy.png");
 }
 
 function setup() {
@@ -38,12 +58,13 @@ function draw() {
   description();
 
   if (gameScreen === "Game Instructions") {
-    background(100);
+    background(50);
     instructions();
   }
 
   if (gameScreen === "Game On") {
     background(0);
+    game();
   }
 }
 
@@ -55,6 +76,17 @@ function values() {
   gameInstructionsYcor = height/2 - 2.5*gameInstructionsSize;
   footerSize = 0.025*width;
   footerYcor = 0.9625*height - footerSize/2;
+
+  dadWidth = 0.3825*width;
+  dadHeight = 0.525*height;
+  dadXcor = width/2;
+  dadYcor = height - dadHeight/2;
+
+  boyWidth = 0.3*width;
+  boyHeight = 0.43875*height;
+  boyYcor = height - boyHeight/2;
+  firstBoyXcor = boyWidth/2;
+  secondBoyXcor = 0.85*width;
 }
 
 function description() {
@@ -67,9 +99,9 @@ function description() {
   text("Dad needs to go to the grocery store, but his twin boys are extremely difficult when it comes to making the list. One boy asks for too many things, while the other complains about nearly anything his brother asks for. Both behaviours frustrate Dad, and he will eventually blow up.", 0, gameDescriptionYcor, width, height);
 
   textSize(footerSize);
-  text("(press Enter to continue)", 0, footerYcor, width, height);
+  text("(click anywhere on screen to continue)", 0, footerYcor, width, height);
 
-  if (keyIsPressed && keyCode === ENTER) {
+  if (mouseIsPressed) {
     gameScreen = "Game Instructions";
   }
 }
@@ -80,7 +112,7 @@ function instructions() {
   text("DOUBLE TROUBLE", 0, gameTitleYcor, width, height);
 
   textSize(gameInstructionsSize);
-  text("You are the boy who asks for everything. If you ask Dad for healthy food and both him and your brother are happy with it, Dad will add it to the list. The goal is to have a list with 15 items. If your dad rejects 10 of your requests before then, you and your brother will be grounded for a week. Be careful with what you ask for.", 0, gameInstructionsYcor, width, height);
+  text("You are the boy who asks for everything. If you ask Dad for healthy food and both him and your brother are happy with it, Dad will add it to the list. The goal is to have a list with 15 items, but if your dad rejects 10 of your requests before then, you and your brother will be grounded for a week.", 0, gameInstructionsYcor, width, height);
 
   textSize(footerSize);
   text("(press Enter to start game)", 0, footerYcor, width, height);
@@ -88,4 +120,11 @@ function instructions() {
   if (keyIsPressed && keyCode === ENTER) {
     gameScreen = "Game On";
   }
+}
+
+function game() {
+  imageMode(CENTER);
+  image(boy, firstBoyXcor, boyYcor, boyWidth, boyHeight);
+  image(dad, dadXcor, dadYcor, dadWidth, dadHeight);
+  image(boy, secondBoyXcor, boyYcor, boyWidth, boyHeight);
 }
