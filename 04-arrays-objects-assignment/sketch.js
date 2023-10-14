@@ -11,7 +11,10 @@
 // Browser window smaller school computer: (1072, 738)
 // Browser window smaller school computer inspecting elements: (517, 738)
 
-let gameScreen;
+let gameScreen = "Game Description";
+
+let patience = 10;
+let items = 0;
 
 let dad;
 let boy;
@@ -101,7 +104,7 @@ function description() {
   textSize(footerSize);
   text("(click anywhere on screen to continue)", 0, footerYcor, width, height);
 
-  if (mouseIsPressed) {
+  if (mouseIsPressed && gameScreen === "Game Description") {
     gameScreen = "Game Instructions";
   }
 }
@@ -127,4 +130,10 @@ function game() {
   image(boy, firstBoyXcor, boyYcor, boyWidth, boyHeight);
   image(dad, dadXcor, dadYcor, dadWidth, dadHeight);
   image(boy, secondBoyXcor, boyYcor, boyWidth, boyHeight);
+
+  rectMode(CENTER);
+  rect(firstBoyXcor, 100, boyWidth, 100);
+  textSize(gameTitleSize);
+  text(patience, dadXcor, 100, dadWidth, 100);
+  rect(secondBoyXcor, 100, boyWidth, 100);
 }
