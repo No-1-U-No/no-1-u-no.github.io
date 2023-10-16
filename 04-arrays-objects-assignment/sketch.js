@@ -11,6 +11,9 @@
 // Browser window smaller school computer: (1072, 738)
 // Browser window smaller school computer inspecting elements: (517, 738)
 
+// https://codepen.io/chabzz/pen/mVYVpY
+// https://stackoverflow.com/questions/6840326/how-can-i-create-and-style-a-div-using-javascript
+
 let gameScreen = "Game Description";
 
 let patience = 10;
@@ -82,7 +85,7 @@ function displayIntroScreens() {
     footerYcor: 0.9625*height - 0.0125*width,
     descriptionFooterText: "(click anywhere on screen to continue)",
     instructionsFooterText: "(press Enter to start game)",
-  }
+  };
 
   return introScreen;
 }
@@ -186,10 +189,6 @@ function displayGameScreen() {
   
   fill("red");
   text(patience, dad.xcor, button.textYcor, dad.width, button.height);
-}
-
-function game() {
-  displayGameScreen();
 
   if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
     fill("green");
@@ -204,4 +203,8 @@ function game() {
     fill(50);
     text(button.viewListText, button.viewListButtonXcor, button.textYcor);
   }
+}
+
+function game() {
+  displayGameScreen();
 }
