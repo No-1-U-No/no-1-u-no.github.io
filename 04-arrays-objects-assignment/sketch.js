@@ -11,9 +11,6 @@
 // Browser window smaller school computer: (1072, 738)
 // Browser window smaller school computer inspecting elements: (517, 738)
 
-// https://codepen.io/chabzz/pen/mVYVpY
-// https://stackoverflow.com/questions/6840326/how-can-i-create-and-style-a-div-using-javascript
-
 let gameScreen = "Game Description";
 
 let patience = 10;
@@ -27,6 +24,12 @@ let introScreen;
 let boy;
 let dad;
 let button;
+
+let showList;
+let showGroceries;
+
+let listDisplayed = false;
+let groceriesDisplayed = false;
 
 function preload() {
   // Boy image source: https://metro.co.uk/wp-content/uploads/2015/08/child-screaming.jpg
@@ -42,6 +45,8 @@ function setup() {
   boy = displayBoys();
   dad = displayDad();
   button = displayButtons();
+  showList = displayList();
+  showGroceries = displayGroceries();
 }
 
 function windowResized() {
@@ -50,6 +55,8 @@ function windowResized() {
   boy = displayBoys();
   dad = displayDad();
   button = displayButtons();
+  showList = displayList();
+  showGroceries = displayGroceries();
 }
 
 function draw() {
@@ -189,22 +196,70 @@ function displayGameScreen() {
   
   fill("red");
   text(patience, dad.xcor, button.textYcor, dad.width, button.height);
+}
+
+function displayList() {
+  showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
+  showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showList.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showList.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showList.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showList.style("background-color: black");
+  showList.style("color: green")
+  showList.style(`font-size: ${height/button.height*50}%`);
+  showList.style("text-align: center");
+  showList.style(`line-height: ${height/button.height*25}%`);
+  showList.hide();
+
+  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
+    showList.show();
+  }
+}
+
+function displayGroceries() {
+  showGroceries = createDiv("GROCERIES:");
+  showGroceries.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGroceries.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  showGroceries.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGroceries.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGroceries.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGroceries.style("background-color: black");
+  showGroceries.style("color: green")
+  showGroceries.style(`font-size: ${height/button.height*50}%`);
+  showGroceries.style("text-align: center");
+  showGroceries.style(`line-height: ${height/button.height*25}%`);
+  showGroceries.hide();
+
+  if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
+    showGroceries.show();
+  }
+}
+
+function game() {
+  displayGameScreen();
 
   if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
     fill("green");
     rect(button.addItemsButtonXcor, button.ycor, button.width, button.height);
     fill(50);
     text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
-  }
 
+    if (mouseIsPressed && listDisplayed === false) {
+      displayGroceries();
+      groceriesDisplayed = true;
+    }
+  }
+  
   if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
     fill("green");
     rect(button.viewListButtonXcor, button.ycor, button.width, button.height);
     fill(50);
     text(button.viewListText, button.viewListButtonXcor, button.textYcor);
-  }
-}
 
-function game() {
-  displayGameScreen();
+    if (mouseIsPressed && groceriesDisplayed === false) {
+      displayList();
+      listDisplayed = true;
+    }
+  }
 }
