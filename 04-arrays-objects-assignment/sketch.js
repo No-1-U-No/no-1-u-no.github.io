@@ -16,6 +16,16 @@ let gameScreen = "Game Description";
 let patience = 10;
 let items = 0;
 
+let listDisplayed = false;
+let groceriesDisplayed = false;
+
+let groceryList = [];
+
+let fruits = ["Apples", "Bananas", "Blackberries", "Blueberries", "Cherries", "Grapes", "Kiwi", "Mangoes", "Oranges", "Peaches", "Pears", "Pineapples", "Raspberries", "Strawberries", "Watermelon"];
+let vegetables = ["Asparagus", "Broccoli", "Brussel sprouts", "Cabbage", "Carrots", "Cauliflower", "Corn", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
+let meat = ["Beef", "Chicken", "Duck", "Ham", "Lamb", "Pork", "Turkey"];
+let junk = ["Chips", "Cookies", "Pop"];
+
 let boyImage;
 let dadImage;
 
@@ -27,9 +37,7 @@ let button;
 
 let showList;
 let showGroceries;
-
-let listDisplayed = false;
-let groceriesDisplayed = false;
+let showFruits;
 
 function preload() {
   // Boy image source: https://metro.co.uk/wp-content/uploads/2015/08/child-screaming.jpg
@@ -206,7 +214,7 @@ function displayList() {
   showList.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showList.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showList.style("background-color: black");
-  showList.style("color: green")
+  showList.style("color: green");
   showList.style(`font-size: ${height/button.height*50}%`);
   showList.style("text-align: center");
   showList.style(`line-height: ${height/button.height*25}%`);
@@ -224,15 +232,26 @@ function displayGroceries() {
   showGroceries.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGroceries.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGroceries.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  showGroceries.style("background-color: black");
-  showGroceries.style("color: green")
+  showGroceries.style("background-color: red");
+  showGroceries.style("color: green");
   showGroceries.style(`font-size: ${height/button.height*50}%`);
-  showGroceries.style("text-align: center");
   showGroceries.style(`line-height: ${height/button.height*25}%`);
   showGroceries.hide();
 
+  showFruits = createDiv("FRUITS");
+  showFruits.position((button.addItemsButtonXcor + button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showFruits.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  showFruits.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showFruits.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showFruits.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showFruits.style("color: green");
+  showFruits.style(`font-size: ${height/button.height*50}%`);
+  showFruits.style(`line-height: ${height/button.height*25}%`);
+  showFruits.hide();
+
   if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
     showGroceries.show();
+    showFruits.show();
   }
 }
 
