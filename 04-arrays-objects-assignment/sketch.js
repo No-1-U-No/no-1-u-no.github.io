@@ -67,12 +67,12 @@ function setup() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
-  showList = displayList();
-  showGrocery1 = displayList();
-  showGrocery2 = displayList();
-  showGrocery3 = displayList();
-  showGrocery4 = displayList();
-  showGrocery5 = displayList();
+  createList();
+  // showGrocery1 = createList();
+  // showGrocery2 = createList();
+  // showGrocery3 = createList();
+  // showGrocery4 = createList();
+  // showGrocery5 = createList();
   showGroceries = displayGroceries();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
@@ -84,12 +84,12 @@ function windowResized() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
-  showList = displayList();
-  showGrocery1 = displayList();
-  showGrocery2 = displayList();
-  showGrocery3 = displayList();
-  showGrocery4 = displayList();
-  showGrocery5 = displayList();
+  // showList = createList();
+  // showGrocery1 = createList();
+  // showGrocery2 = createList();
+  // showGrocery3 = createList();
+  // showGrocery4 = createList();
+  // showGrocery5 = createList();
   showGroceries = displayGroceries();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
@@ -235,7 +235,7 @@ function displayGameScreen() {
   text(patience, showDad.xcor, button.textYcor, showDad.width, button.height);
 }
 
-function displayList() {
+function createList() {
   showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
   showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -299,23 +299,73 @@ function displayList() {
   showGrocery5.style("color: green");
   showGrocery5.hide();
 
-  if (gameScreen === "Game On") {
-    showList.show();
-    showGrocery1.show();
-    showGrocery2.show();
-    showGrocery3.show();
-    showGrocery4.show();
-    showGrocery5.show();
-  }
+  // if (gameScreen === "Game On") {
+  //   showList.show();
+  //   showGrocery1.show();
+  //   showGrocery2.show();
+  //   showGrocery3.show();
+  //   showGrocery4.show();
+  //   showGrocery5.show();
 
-  if (listDisplayed === false) {
-    showList.style("display: none");
-    showGrocery1.style("display: none");
-    showGrocery2.style("display: none");
-    showGrocery3.style("display: none");
-    showGrocery4.style("display: none");
-    showGrocery5.style("display: none");
-  }
+  //   if (keyIsPressed && keyCode === LEFT_ARROW) {
+  //     // showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
+  //     // showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  //     // showList.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  //     // showList.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showList.style(`height: ${(button.ycor + button.height/2)/height*250}%`);
+  //     // showList.style(`font-size: ${height/button.height*25}%`);
+  //     // showList.style(`line-height: ${height/button.height*10}%`);
+  //     // showList.style("text-align: center");
+  //     showList.style("color: black");
+  //     // showList.style("background-color: black");
+    
+  //     // showGrocery1 = createDiv(groceryList[0]);
+  //     // showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showGrocery1.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showGrocery1.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  //     // showGrocery1.style(`font-size: ${height/button.height*25}%`);
+  //     // showGrocery1.style(`line-height: ${height/button.height*100}%`);
+  //     // showGrocery1.style("text-align: center");
+  //     showGrocery1.style("color: black");
+    
+  //     // showGrocery2 = createDiv(groceryList[1]);
+  //     // showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showGrocery2.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showGrocery2.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  //     // showGrocery2.style(`font-size: ${height/button.height*25}%`);
+  //     // showGrocery2.style(`line-height: ${height/button.height*150}%`);
+  //     // showGrocery2.style("text-align: center");
+  //     showGrocery2.style("color: black");
+    
+  //     // showGrocery3 = createDiv(groceryList[2]);
+  //     // showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showGrocery3.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showGrocery3.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  //     // showGrocery3.style(`font-size: ${height/button.height*25}%`);
+  //     // showGrocery3.style(`line-height: ${height/button.height*200}%`);
+  //     // showGrocery3.style("text-align: center");
+  //     showGrocery3.style("color: black");
+    
+  //     // showGrocery4 = createDiv(groceryList[3]);
+  //     // showGrocery4.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showGrocery4.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showGrocery4.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  //     // showGrocery4.style(`font-size: ${height/button.height*25}%`);
+  //     // showGrocery4.style(`line-height: ${height/button.height*250}%`);
+  //     // showGrocery4.style("text-align: center");
+  //     showGrocery4.style("color: black");
+    
+  //     // showGrocery5 = createDiv(groceryList[4]);
+  //     // showGrocery5.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  //     // showGrocery5.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  //     // showGrocery5.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  //     // showGrocery5.style(`font-size: ${height/button.height*25}%`);
+  //     // showGrocery5.style(`line-height: ${height/button.height*300}%`);
+  //     // showGrocery5.style("text-align: center");
+  //     showGrocery5.style("color: black");  
+  //   }
+  // }
 }
 
 function displayGroceries() {
@@ -348,6 +398,26 @@ function displayGroceries() {
   // }
 }
 
+function displayList() {
+  showList.show();
+  showGrocery1.show();
+  showGrocery2.show();
+  showGrocery3.show();
+  showGrocery4.show();
+  showGrocery5.show();
+
+  if (keyIsPressed && keyCode === LEFT_ARROW) {
+    showList.hide();
+    showGrocery1.hide();
+    showGrocery2.hide();
+    showGrocery3.hide();
+    showGrocery4.hide();
+    showGrocery5.hide();
+
+    listDisplayed = false;
+  }
+}
+
 function game() {
   displayGameScreen();
 
@@ -372,10 +442,17 @@ function game() {
     if (mouseIsPressed && groceriesDisplayed === false) {
       displayList();
       listDisplayed = true;
-
-      if (keyIsPressed && keyCode === LEFT_ARROW) {
-        listDisplayed = false;
-      }
     }
+  }
+}
+
+function keyPressed() {
+  if (key === "c") {
+    showList.hide();
+    showGrocery1.hide();
+    showGrocery2.hide();
+    showGrocery3.hide();
+    showGrocery4.hide();
+    showGrocery5.hide();
   }
 }
