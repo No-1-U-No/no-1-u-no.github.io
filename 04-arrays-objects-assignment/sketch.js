@@ -41,6 +41,12 @@ let computerBoy;
 let button;
 
 let showList;
+let showGrocery1;
+let showGrocery2;
+let showGrocery3;
+let showGrocery4;
+let showGrocery5;
+
 let showGroceries;
 let showFruits;
 
@@ -62,6 +68,11 @@ function setup() {
   showDad = displayDad();
   button = displayButtons();
   showList = displayList();
+  showGrocery1 = displayList();
+  showGrocery2 = displayList();
+  showGrocery3 = displayList();
+  showGrocery4 = displayList();
+  showGrocery5 = displayList();
   showGroceries = displayGroceries();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
@@ -74,6 +85,11 @@ function windowResized() {
   showDad = displayDad();
   button = displayButtons();
   showList = displayList();
+  showGrocery1 = displayList();
+  showGrocery2 = displayList();
+  showGrocery3 = displayList();
+  showGrocery4 = displayList();
+  showGrocery5 = displayList();
   showGroceries = displayGroceries();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
@@ -230,7 +246,7 @@ function displayList() {
   showList.style(`line-height: ${height/button.height*10}%`);
   showList.style("text-align: center");
   showList.style("color: green");
-  showList.style("background-color: red");
+  showList.style("background-color: black");
   showList.hide();
 
   showGrocery1 = createDiv(groceryList[0]);
@@ -283,14 +299,22 @@ function displayList() {
   showGrocery5.style("color: green");
   showGrocery5.hide();
 
-
-  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
+  if (gameScreen === "Game On") {
     showList.show();
     showGrocery1.show();
     showGrocery2.show();
     showGrocery3.show();
     showGrocery4.show();
     showGrocery5.show();
+  }
+
+  if (listDisplayed === false) {
+    showList.style("display: none");
+    showGrocery1.style("display: none");
+    showGrocery2.style("display: none");
+    showGrocery3.style("display: none");
+    showGrocery4.style("display: none");
+    showGrocery5.style("display: none");
   }
 }
 
@@ -333,7 +357,7 @@ function game() {
     fill(50);
     text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
 
-    if (mouseIsPressed && listDisplayed === false) {
+    if (listDisplayed === false) {
       // displayGroceries();
       groceriesDisplayed = true;
     }
@@ -348,6 +372,10 @@ function game() {
     if (mouseIsPressed && groceriesDisplayed === false) {
       displayList();
       listDisplayed = true;
+
+      if (keyIsPressed && keyCode === LEFT_ARROW) {
+        listDisplayed = false;
+      }
     }
   }
 }
