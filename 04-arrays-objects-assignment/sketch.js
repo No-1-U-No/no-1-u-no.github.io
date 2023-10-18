@@ -19,7 +19,7 @@ let items = 0;
 let listDisplayed = false;
 let groceriesDisplayed = false;
 
-let groceryList = [];
+let groceryList = ["I", "THINK", "I", "GET", "THIS?"];
 
 let fruits = ["Apples", "Bananas", "Blackberries", "Blueberries", "Cherries", "Grapes", "Kiwi", "Mangoes", "Oranges", "Peaches", "Pears", "Pineapples", "Raspberries", "Strawberries", "Watermelon"];
 let vegetables = ["Asparagus", "Broccoli", "Brussel sprouts", "Cabbage", "Carrots", "Cauliflower", "Corn", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
@@ -31,13 +31,21 @@ let dadImage;
 
 let introScreen;
 
-let boy;
+let showBoy;
+let showDad;
+
+let playerBoy;
 let dad;
+let computerBoy;
+
 let button;
 
 let showList;
 let showGroceries;
 let showFruits;
+
+let computerBoyChoices;
+let computerBoyChoice;
 
 function preload() {
   // Boy image source: https://metro.co.uk/wp-content/uploads/2015/08/child-screaming.jpg
@@ -50,21 +58,25 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   introScreen = displayIntroScreens();
-  boy = displayBoys();
-  dad = displayDad();
+  showBoy = displayBoys();
+  showDad = displayDad();
   button = displayButtons();
   showList = displayList();
   showGroceries = displayGroceries();
+  computerBoyChoices = ["Yes", "No"];
+  computerBoyChoice = random(computerBoyChoices);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   introScreen = displayIntroScreens();
-  boy = displayBoys();
-  dad = displayDad();
+  showBoy = displayBoys();
+  showDad = displayDad();
   button = displayButtons();
   showList = displayList();
   showGroceries = displayGroceries();
+  computerBoyChoices = ["Yes", "No"];
+  computerBoyChoice = random(computerBoyChoices);
 }
 
 function draw() {
@@ -139,7 +151,7 @@ function instructions() {
 }
 
 function displayBoys() {
-  let boy = {
+  let showBoy = {
     firstBoyXcor: 0.15*width,
     secondBoyXcor: 0.85*width,
     ycor: height - 0.219375*height,
@@ -147,26 +159,26 @@ function displayBoys() {
     height: 0.43875*height,
   };
 
-  return boy;
+  return showBoy;
 }
 
 function displayDad() {
-  let dad = {
+  let showDad = {
     xcor: width/2,
     ycor: height - 0.2625*height,
     width: 0.3825*width,
     height: 0.525*height,
   };
   
-  return dad;
+  return showDad;
 }
 
 function displayButtons() {
   let button = {
-    addItemsButtonXcor: boy.firstBoyXcor + introScreen.textSize,
-    viewListButtonXcor: boy.secondBoyXcor - introScreen.textSize,
+    addItemsButtonXcor: showBoy.firstBoyXcor + introScreen.textSize,
+    viewListButtonXcor: showBoy.secondBoyXcor - introScreen.textSize,
     ycor: height/7.75,
-    width: boy.width,
+    width: showBoy.width,
     height: height/7.75,
 
     textSize: 1.5*introScreen.textSize,
@@ -174,10 +186,10 @@ function displayButtons() {
     addItemsText: "ADD ITEMS",
     viewListText: "VIEW LIST",
 
-    leftAddItemsText: boy.firstBoyXcor + introScreen.textSize - boy.width/2,
-    rightAddItemsText: boy.firstBoyXcor + introScreen.textSize + boy.width/2,
-    leftViewListText: boy.secondBoyXcor - introScreen.textSize - boy.width/2,
-    rightViewListText: boy.secondBoyXcor - introScreen.textSize + boy.width/2,
+    leftAddItemsText: showBoy.firstBoyXcor + introScreen.textSize - showBoy.width/2,
+    rightAddItemsText: showBoy.firstBoyXcor + introScreen.textSize + showBoy.width/2,
+    leftViewListText: showBoy.secondBoyXcor - introScreen.textSize - showBoy.width/2,
+    rightViewListText: showBoy.secondBoyXcor - introScreen.textSize + showBoy.width/2,
     topText: height/7.75 - height/15.5,
     bottomText: height/7.75 + height/15.5,
   };
@@ -187,9 +199,10 @@ function displayButtons() {
 
 function displayGameScreen() {
   imageMode(CENTER);
-  image(boyImage, boy.firstBoyXcor, boy.ycor, boy.width, boy.height);
-  image(dadImage, dad.xcor, dad.ycor, dad.width, dad.height);
-  image(boyImage, boy.secondBoyXcor, boy.ycor, boy.width, boy.height);
+
+  playerBoy = image(boyImage, showBoy.firstBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
+  dad = image(dadImage, showDad.xcor, showDad.ycor, showDad.width, showDad.height);
+  computerBoy = image(boyImage, showBoy.secondBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
   
   fill(50);
   rectMode(CENTER);
@@ -203,56 +216,112 @@ function displayGameScreen() {
   text(button.viewListText, button.viewListButtonXcor, button.textYcor, button.width, button.height);
   
   fill("red");
-  text(patience, dad.xcor, button.textYcor, dad.width, button.height);
+  text(patience, showDad.xcor, button.textYcor, showDad.width, button.height);
 }
 
 function displayList() {
   showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
   showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  showList.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showList.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showList.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  showList.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  showList.style("background-color: black");
-  showList.style("color: green");
-  showList.style(`font-size: ${height/button.height*50}%`);
+  showList.style(`height: ${(button.ycor + button.height/2)/height*250}%`);
+  showList.style(`font-size: ${height/button.height*25}%`);
+  showList.style(`line-height: ${height/button.height*10}%`);
   showList.style("text-align: center");
-  showList.style(`line-height: ${height/button.height*25}%`);
+  showList.style("color: green");
+  showList.style("background-color: red");
   showList.hide();
+
+  showGrocery1 = createDiv(groceryList[0]);
+  showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery1.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGrocery1.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGrocery1.style(`font-size: ${height/button.height*25}%`);
+  showGrocery1.style(`line-height: ${height/button.height*100}%`);
+  showGrocery1.style("text-align: center");
+  showGrocery1.style("color: green");
+  showGrocery1.hide();
+
+  showGrocery2 = createDiv(groceryList[1]);
+  showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery2.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGrocery2.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGrocery2.style(`font-size: ${height/button.height*25}%`);
+  showGrocery2.style(`line-height: ${height/button.height*150}%`);
+  showGrocery2.style("text-align: center");
+  showGrocery2.style("color: green");
+  showGrocery2.hide();
+
+  showGrocery3 = createDiv(groceryList[2]);
+  showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery3.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGrocery3.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGrocery3.style(`font-size: ${height/button.height*25}%`);
+  showGrocery3.style(`line-height: ${height/button.height*200}%`);
+  showGrocery3.style("text-align: center");
+  showGrocery3.style("color: green");
+  showGrocery3.hide();
+
+  showGrocery4 = createDiv(groceryList[3]);
+  showGrocery4.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery4.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGrocery4.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGrocery4.style(`font-size: ${height/button.height*25}%`);
+  showGrocery4.style(`line-height: ${height/button.height*250}%`);
+  showGrocery4.style("text-align: center");
+  showGrocery4.style("color: green");
+  showGrocery4.hide();
+
+  showGrocery5 = createDiv(groceryList[4]);
+  showGrocery5.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery5.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  showGrocery5.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  showGrocery5.style(`font-size: ${height/button.height*25}%`);
+  showGrocery5.style(`line-height: ${height/button.height*300}%`);
+  showGrocery5.style("text-align: center");
+  showGrocery5.style("color: green");
+  showGrocery5.hide();
+
 
   if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
     showList.show();
+    showGrocery1.show();
+    showGrocery2.show();
+    showGrocery3.show();
+    showGrocery4.show();
+    showGrocery5.show();
   }
 }
 
 function displayGroceries() {
-  showGroceries = createDiv("GROCERIES:");
-  showGroceries.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  showGroceries.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
-  showGroceries.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
-  showGroceries.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  showGroceries.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  showGroceries.style("background-color: red");
-  showGroceries.style("color: green");
-  showGroceries.style(`font-size: ${height/button.height*50}%`);
-  showGroceries.style(`line-height: ${height/button.height*25}%`);
-  showGroceries.hide();
+  // showGroceries = createDiv("GROCERIES:");
+  // showGroceries.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  // showGroceries.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  // showGroceries.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  // showGroceries.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  // showGroceries.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  // showGroceries.style("background-color: red");
+  // showGroceries.style("color: green");
+  // showGroceries.style(`font-size: ${height/button.height*50}%`);
+  // showGroceries.style(`line-height: ${height/button.height*25}%`);
+  // showGroceries.hide();
 
-  showFruits = createDiv("FRUITS");
-  showFruits.position((button.addItemsButtonXcor + button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  showFruits.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
-  showFruits.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
-  showFruits.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  showFruits.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  showFruits.style("color: green");
-  showFruits.style(`font-size: ${height/button.height*50}%`);
-  showFruits.style(`line-height: ${height/button.height*25}%`);
-  showFruits.hide();
+  // showFruits = createDiv("FRUITS");
+  // showFruits.position((button.addItemsButtonXcor + button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  // showFruits.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
+  // showFruits.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  // showFruits.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
+  // showFruits.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
+  // showFruits.style("color: green");
+  // showFruits.style(`font-size: ${height/button.height*50}%`);
+  // showFruits.style(`line-height: ${height/button.height*25}%`);
+  // showFruits.hide();
 
-  if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
-    showGroceries.show();
-    showFruits.show();
-  }
+  // if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
+  //   showGroceries.show();
+  //   showFruits.show();
+  // }
 }
 
 function game() {
@@ -265,7 +334,7 @@ function game() {
     text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
 
     if (mouseIsPressed && listDisplayed === false) {
-      displayGroceries();
+      // displayGroceries();
       groceriesDisplayed = true;
     }
   }
