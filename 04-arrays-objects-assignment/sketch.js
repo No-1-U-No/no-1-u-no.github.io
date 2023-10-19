@@ -21,8 +21,8 @@ let groceriesDisplayed = false;
 
 let groceryList = ["I", "THINK", "I", "GET", "THIS?"];
 
-let fruits = ["Apples", "Bananas", "Blackberries", "Blueberries", "Cherries", "Grapes", "Kiwi", "Mangoes", "Oranges", "Peaches", "Pears", "Pineapples", "Raspberries", "Strawberries", "Watermelon"];
-let vegetables = ["Asparagus", "Broccoli", "Brussel sprouts", "Cabbage", "Carrots", "Cauliflower", "Corn", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
+let fruits = ["Apples", "Bananas", "Cherries", "Grapes", "Oranges"];
+let vegetables = ["Broccoli", "Carrots", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
 let meat = ["Beef", "Chicken", "Duck", "Lamb", "Pork"];
 
 let boyImage;
@@ -40,6 +40,10 @@ let computerBoy;
 let button;
 
 let categories;
+let showFruits;
+let showVegetables;
+let showMeat;
+let groceries;
 
 let showGrocery1;
 let showGrocery2;
@@ -64,7 +68,11 @@ function setup() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
-  categories = createGroceries();
+  categories = displayCategories();
+  showFruits = displayFruits();
+  showVegetables = displayVegetables();
+  showMeat = displayMeat();
+  groceries = displayGroceries();
   createList();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
@@ -76,7 +84,11 @@ function windowResized() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
-  categories = createGroceries();
+  categories = displayCategories();
+  showFruits = displayFruits();
+  showVegetables = displayVegetables();
+  showMeat = displayMeat();
+  groceries = displayGroceries();
 }
 
 function draw() {
@@ -209,8 +221,8 @@ function displayButtons() {
     rightAddItemsText: showBoy.firstBoyXcor + introScreen.textSize + showBoy.width/2,
     leftViewListText: showBoy.secondBoyXcor - introScreen.textSize - showBoy.width/2,
     rightViewListText: showBoy.secondBoyXcor - introScreen.textSize + showBoy.width/2,
-    topText: height/7.75 - height/15.5,
-    bottomText: height/7.75 + height/15.5,
+    topText: height/15.5,
+    bottomText: (3*height)/15.5,
   };
 
   return button;
@@ -238,43 +250,377 @@ function displayGameScreen() {
   text(patience, showDad.xcor, button.textYcor, showDad.width, button.height);
 }
 
-function createGroceries() {
+function displayCategories() {
   let categories = {
     ycor: button.ycor,
     height: button.height,
     textYcor: button.textYcor,
 
     fruitsText: "FRUITS",
-    fruitsXcor: button.addItemsButtonXcor + 0.775*button.width, //406.71625
+    fruitsXcor: button.addItemsButtonXcor + 0.775*button.width,
     fruitsWidth: 0.6*button.width,
 
     vegetablesText: "VEGETABLES",
-    vegetablesXcor: 650,
+    vegetablesXcor: 0.66125*width,
     vegetablesWidth: 1.05*button.width,
 
     meatText: "MEAT",
-    meatXcor: button.viewListButtonXcor + button.width/4, //878.55625
+    meatXcor: button.viewListButtonXcor + button.width/4,
     meatWidth: 0.5*button.width,
   };
 
   return categories;
 }
 
+function displayFruits() {
+  let showFruits = {
+    xcor: categories.fruitsXcor,
+    width: categories.fruitsWidth,
+    height: categories.height/2,
+    textSize: introScreen.textSize,
+
+    applesText: fruits[0],
+    applesYcor: 1.75*categories.ycor,
+
+    bananasText: fruits[1],
+    bananasYcor: 2.25*categories.ycor,
+
+    cherriesText: fruits[2],
+    cherriesYcor: 2.75*categories.ycor,
+
+    grapesText: fruits[3],
+    grapesYcor: 3.25*categories.ycor,
+
+    orangesText: fruits[4],
+    orangesYcor: 3.75*categories.ycor,
+
+    leftText: categories.fruitsXcor - categories.fruitsWidth/2,
+    rightText: categories.fruitsXcor + categories.fruitsWidth/2,
+    topText: categories.ycor - categories.height/2,
+    bottomText: 3.75*categories.ycor + categories.height/4,
+
+    applesTopText: 1.75*categories.ycor - categories.height/4,
+    applesBottomText: 1.75*categories.ycor + categories.height/4,
+
+    bananasTopText: 2.25*categories.ycor - categories.height/4,
+    bananasBottomText: 2.25*categories.ycor + categories.height/4,
+
+    cherriesTopText: 2.75*categories.ycor - categories.height/4,
+    cherriesBottomText: 2.75*categories.ycor + categories.height/4,
+
+    grapesTopText: 3.25*categories.ycor - categories.height/4,
+    grapesBottomText: 3.25*categories.ycor + categories.height/4,
+
+    orangesTopText: 3.75*categories.ycor - categories.height/4,
+  };
+
+  return showFruits;
+}
+
+function displayVegetables() {
+  let showVegetables = {
+    width: categories.vegetablesWidth/2,
+    height: categories.height/2,
+    textSize: introScreen.textSize,
+
+    leftXcor: categories.vegetablesXcor - categories.vegetablesWidth/4,
+    rightXcor: categories.vegetablesXcor + categories.vegetablesWidth/4,
+
+    broccoliText: vegetables[0],
+    broccoliYcor: showFruits.applesYcor,
+
+    carrotsText: vegetables[1],
+    carrotsYcor: showFruits.bananasYcor,
+
+    cucumbersText: vegetables[2],
+    cucumbersYcor: showFruits.cherriesYcor,
+
+    lettuceText: vegetables[3],
+    lettuceYcor: showFruits.grapesYcor,
+
+    mushroomsText: vegetables[4],
+    mushroomsYcor: showFruits.orangesYcor,
+
+    onionsText: vegetables[5],
+    onionsYcor: showFruits.applesYcor,
+
+    peppersText: vegetables[6],
+    peppersYcor: showFruits.bananasYcor,
+
+    potatoesText: vegetables[7],
+    potatoesYcor: showFruits.cherriesYcor,
+
+    spinachText: vegetables[8],
+    spinachYcor: showFruits.grapesYcor,
+
+    tomatoesText: vegetables[9],
+    tomatoesYcor: showFruits.orangesYcor,
+
+    leftText: categories.vegetablesXcor - categories.vegetablesWidth/2,
+    centerText: categories.vegetablesXcor,
+    rightText: categories.vegetablesXcor + categories.vegetablesWidth/2,
+    topText: categories.ycor - categories.height/2,
+    bottomText: 3.75*categories.ycor + categories.height/4,
+
+    broccoliTopText: showFruits.applesTopText,
+    broccoliBottomText: showFruits.applesBottomText,
+
+    carrotsTopText: showFruits.bananasTopText,
+    carrotsBottomText: showFruits.bananasBottomText,
+
+    cucumbersTopText: showFruits.cherriesTopText,
+    cucumbersBottomText: showFruits.cherriesBottomText,
+
+    lettuceTopText: showFruits.grapesTopText,
+    lettuceBottomText: showFruits.grapesBottomText,
+
+    mushroomsTopText: showFruits.orangesTopText,
+
+    onionsTopText: showFruits.applesTopText,
+    onionsBottomText: showFruits.applesBottomText,
+
+    peppersTopText: showFruits.bananasTopText,
+    peppersBottomText: showFruits.bananasBottomText,
+
+    potatoesTopText: showFruits.cherriesTopText,
+    potatoesBottomText: showFruits.cherriesBottomText,
+
+    spinachTopText: showFruits.grapesTopText,
+    spinachBottomText: showFruits.grapesBottomText,
+
+    tomatoesTopText: showFruits.orangesTopText,
+  };
+
+  return showVegetables;
+}
+
+function displayMeat() {
+  text("YO", 10, 10, 10, 10);
+}
+
 function displayGroceries() {
-  fill("green");
+  fill(50);
   rect(categories.fruitsXcor, categories.ycor, categories.fruitsWidth, categories.height);
-  fill(50);
-  text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
-  
   fill("green");
-  rect(categories.vegetablesXcor, categories.ycor, categories.vegetablesWidth, categories.height);
+  text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
+
+  if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.topText && mouseY <= showFruits.bottomText) {
+    fill("green");
+    rect(categories.fruitsXcor, categories.ycor, categories.fruitsWidth, categories.height);
+    fill(50);
+    text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
+  }
+
+  else if (mouseY >= showFruits.bottomText) {
+    groceriesDisplayed = false;
+  }
+  
   fill(50);
+  rect(categories.vegetablesXcor, categories.ycor, categories.vegetablesWidth, categories.height);
+  fill("green");
   text(categories.vegetablesText, categories.vegetablesXcor, categories.textYcor, categories.vegetablesWidth, categories.height);
 
-  fill("green");
-  rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
+  if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.topText && mouseY <= showVegetables.bottomText) {
+    fill("green");
+    rect(categories.vegetablesXcor, categories.ycor, categories.vegetablesWidth, categories.height);
+    fill(50);
+    text(categories.vegetablesText, categories.vegetablesXcor, categories.textYcor, categories.vegetablesWidth, categories.height);  
+  }
+
+  else if (mouseY >= showFruits.bottomText) {
+    groceriesDisplayed = false;
+  }
+
   fill(50);
+  rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
+  fill("green");
   text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);
+  
+  textSize(introScreen.textSize);
+
+  if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.topText && mouseY <= showFruits.bottomText) {
+    fill(50);
+    rect(showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
+    fill("green");
+    text(showFruits.applesText, showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
+
+    if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.applesTopText && mouseY <= showFruits.applesBottomText) {
+      fill("green");
+      rect(showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
+      fill(50);
+      text(showFruits.applesText, showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
+    }
+
+    fill(50);
+    rect(showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
+    fill("green");
+    text(showFruits.bananasText, showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
+
+    if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.bananasTopText && mouseY <= showFruits.bananasBottomText) {
+      fill("green");
+      rect(showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
+      fill(50);
+      text(showFruits.bananasText, showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
+    }
+  
+    fill(50);
+    rect(showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);
+    fill("green");
+    text(showFruits.cherriesText, showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);
+
+    if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.cherriesTopText && mouseY <= showFruits.cherriesBottomText) {
+      fill("green");
+      rect(showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);
+      fill(50);
+      text(showFruits.cherriesText, showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);  
+    }
+  
+    fill(50);
+    rect(showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);
+    fill("green");
+    text(showFruits.grapesText, showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);
+
+    if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.grapesTopText && mouseY <= showFruits.grapesBottomText) {
+      fill("green");
+      rect(showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);
+      fill(50);
+      text(showFruits.grapesText, showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);  
+    }
+  
+    fill(50);
+    rect(showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
+    fill("green");
+    text(showFruits.orangesText, showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
+
+    if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.orangesTopText && mouseY <= showFruits.bottomText) {
+      fill("green");
+      rect(showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
+      fill(50);
+      text(showFruits.orangesText, showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
+    }
+  }
+
+  if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.topText && mouseY <= showVegetables.bottomText) {
+    fill(50);
+    rect(showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.broccoliText, showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.centerText && mouseY >= showVegetables.broccoliTopText && mouseY <= showVegetables.broccoliBottomText) {
+      fill("green");
+      rect(showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.broccoliText, showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.carrotsText, showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.centerText && mouseY >= showVegetables.carrotsTopText && mouseY <= showVegetables.carrotsBottomText) {
+      fill("green");
+      rect(showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.carrotsText, showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.cucumbersText, showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.centerText && mouseY >= showVegetables.cucumbersTopText && mouseY <= showVegetables.cucumbersBottomText) {
+      fill("green");
+      rect(showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.cucumbersText, showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.lettuceText, showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.centerText && mouseY >= showVegetables.lettuceTopText && mouseY <= showVegetables.lettuceBottomText) {
+      fill("green");
+      rect(showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.lettuceText, showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.mushroomsText, showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.leftText && mouseX <= showVegetables.centerText && mouseY >= showVegetables.mushroomsTopText && mouseY <= showVegetables.bottomText) {
+      fill("green");
+      rect(showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.mushroomsText, showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.onionsText, showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.centerText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.onionsTopText && mouseY <= showVegetables.onionsBottomText) {
+      fill("green");
+      rect(showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.onionsText, showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.peppersText, showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.centerText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.peppersTopText && mouseY <= showVegetables.peppersBottomText) {
+      fill("green");
+      rect(showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.peppersText, showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.potatoesText, showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.centerText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.potatoesTopText && mouseY <= showVegetables.potatoesBottomText) {
+      fill("green");
+      rect(showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.potatoesText, showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.spinachText, showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.centerText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.spinachTopText && mouseY <= showVegetables.spinachBottomText) {
+      fill("green");
+      rect(showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.spinachText, showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);  
+    }
+
+    fill(50);
+    rect(showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
+    fill("green");
+    text(showVegetables.tomatoesText, showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
+
+    if (mouseX >= showVegetables.centerText && mouseX <= showVegetables.rightText && mouseY >= showVegetables.tomatoesTopText && mouseY <= showVegetables.bottomText) {
+      fill("green");
+      rect(showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
+      fill(50);
+      text(showVegetables.tomatoesText, showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);  
+    }
+  }
 }
 
 function createList() {
@@ -366,19 +712,19 @@ function displayList() {
 function game() {
   displayGameScreen();
 
-  if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
+  if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText && listDisplayed === false) {
     fill("green");
     rect(button.addItemsButtonXcor, button.ycor, button.width, button.height);
     fill(50);
     text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
+    groceriesDisplayed = true;
+  }
 
-    if (listDisplayed === false) {
-      displayGroceries();
-      groceriesDisplayed = true;
-    }
+  if (groceriesDisplayed) {
+    displayGroceries();
   }
   
-  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
+  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText && groceriesDisplayed === false) {
     fill("green");
     rect(button.viewListButtonXcor, button.ycor, button.width, button.height);
     fill(50);
