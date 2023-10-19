@@ -13,7 +13,7 @@
 
 let gameScreen = "Game Description";
 
-let patience = 10;
+let patience = 5;
 let items = 0;
 
 let listDisplayed = false;
@@ -23,8 +23,7 @@ let groceryList = ["I", "THINK", "I", "GET", "THIS?"];
 
 let fruits = ["Apples", "Bananas", "Blackberries", "Blueberries", "Cherries", "Grapes", "Kiwi", "Mangoes", "Oranges", "Peaches", "Pears", "Pineapples", "Raspberries", "Strawberries", "Watermelon"];
 let vegetables = ["Asparagus", "Broccoli", "Brussel sprouts", "Cabbage", "Carrots", "Cauliflower", "Corn", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
-let meat = ["Beef", "Chicken", "Duck", "Ham", "Lamb", "Pork", "Turkey"];
-let junk = ["Chips", "Cookies", "Pop"];
+let meat = ["Beef", "Chicken", "Duck", "Lamb", "Pork"];
 
 let boyImage;
 let dadImage;
@@ -40,15 +39,13 @@ let computerBoy;
 
 let button;
 
-let showList;
+let categories;
+
 let showGrocery1;
 let showGrocery2;
 let showGrocery3;
 let showGrocery4;
 let showGrocery5;
-
-let showGroceries;
-let showFruits;
 
 let computerBoyChoices;
 let computerBoyChoice;
@@ -67,13 +64,8 @@ function setup() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
+  categories = createGroceries();
   createList();
-  // showGrocery1 = createList();
-  // showGrocery2 = createList();
-  // showGrocery3 = createList();
-  // showGrocery4 = createList();
-  // showGrocery5 = createList();
-  showGroceries = displayGroceries();
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
 }
@@ -84,15 +76,7 @@ function windowResized() {
   showBoy = displayBoys();
   showDad = displayDad();
   button = displayButtons();
-  // showList = createList();
-  // showGrocery1 = createList();
-  // showGrocery2 = createList();
-  // showGrocery3 = createList();
-  // showGrocery4 = createList();
-  // showGrocery5 = createList();
-  showGroceries = displayGroceries();
-  computerBoyChoices = ["Yes", "No"];
-  computerBoyChoice = random(computerBoyChoices);
+  categories = createGroceries();
 }
 
 function draw() {
@@ -110,6 +94,33 @@ function draw() {
   }
 }
 
+function mousePressed() {
+  if (gameScreen === "Game Description") {
+    gameScreen = "Game Instructions";
+  }
+
+  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText && gameScreen === "Game On") {
+    displayList();
+  }
+}
+
+function keyPressed() {
+  if (keyCode === ENTER) {
+    gameScreen = "Game On";
+  }
+
+  if (keyCode === ESCAPE) {
+    showList.hide();
+    showGrocery1.hide();
+    showGrocery2.hide();
+    showGrocery3.hide();
+    showGrocery4.hide();
+    showGrocery5.hide();
+
+    listDisplayed = false;
+  }
+}
+
 function displayIntroScreens() {
   let introScreen = {
     titleSize: 0.0625*width,
@@ -122,7 +133,7 @@ function displayIntroScreens() {
     textSize: 0.03125*width,
     textYcor: height/2 - 0.0625*width,
     descriptionText: "Dad needs to go to the grocery store, but his twin boys are extremely difficult when it comes to making the list. One boy asks for too many things, while the other complains about nearly anything his brother asks for. Both behaviours frustrate Dad, and he will eventually blow up.",
-    instructionsText: "You are the boy who asks for everything. If you ask Dad for healthy food and both him and your brother are happy with it, Dad will add it to the list. If Dad rejects 10 of your requests before completing a list with 10 items on it, you and your brother will be grounded for a week.",
+    instructionsText: "You are the boy who asks for everything. If you ask Dad for healthy food and both him and your brother are happy with it, Dad will add it to the list. If Dad rejects 5 of your requests before completing a list with 5 items on it, you and your brother will be grounded for a week.",
     
     footerSize: 0.025*width,
     footerYcor: 0.9625*height - 0.0125*width,
@@ -144,10 +155,6 @@ function description() {
   
   textSize(introScreen.footerSize);
   text(introScreen.descriptionFooterText, introScreen.xcor, introScreen.footerYcor, introScreen.textBoxWidth, introScreen.textBoxHeight);
-  
-  if (mouseIsPressed && gameScreen === "Game Description") {
-    gameScreen = "Game Instructions";
-  }
 }
 
 function instructions() {
@@ -160,10 +167,6 @@ function instructions() {
 
   textSize(introScreen.footerSize);
   text(introScreen.instructionsFooterText, introScreen.xcor, introScreen.footerYcor, introScreen.textBoxWidth, introScreen.textBoxHeight);
-  
-  if (keyIsPressed && keyCode === ENTER) {
-    gameScreen = "Game On";
-  }
 }
 
 function displayBoys() {
@@ -235,6 +238,45 @@ function displayGameScreen() {
   text(patience, showDad.xcor, button.textYcor, showDad.width, button.height);
 }
 
+function createGroceries() {
+  let categories = {
+    ycor: button.ycor,
+    height: button.height,
+    textYcor: button.textYcor,
+
+    fruitsText: "FRUITS",
+    fruitsXcor: button.addItemsButtonXcor + 0.775*button.width, //406.71625
+    fruitsWidth: 0.6*button.width,
+
+    vegetablesText: "VEGETABLES",
+    vegetablesXcor: 650,
+    vegetablesWidth: 1.05*button.width,
+
+    meatText: "MEAT",
+    meatXcor: button.viewListButtonXcor + button.width/4, //878.55625
+    meatWidth: 0.5*button.width,
+  };
+
+  return categories;
+}
+
+function displayGroceries() {
+  fill("green");
+  rect(categories.fruitsXcor, categories.ycor, categories.fruitsWidth, categories.height);
+  fill(50);
+  text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
+  
+  fill("green");
+  rect(categories.vegetablesXcor, categories.ycor, categories.vegetablesWidth, categories.height);
+  fill(50);
+  text(categories.vegetablesText, categories.vegetablesXcor, categories.textYcor, categories.vegetablesWidth, categories.height);
+
+  fill("green");
+  rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
+  fill(50);
+  text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);
+}
+
 function createList() {
   showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
   showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
@@ -251,151 +293,63 @@ function createList() {
 
   showGrocery1 = createDiv(groceryList[0]);
   showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery1.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGrocery1.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showGrocery1.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGrocery1.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showGrocery1.style(`font-size: ${height/button.height*25}%`);
-  showGrocery1.style(`line-height: ${height/button.height*100}%`);
+  showGrocery1.style(`line-height: ${height/button.height*60}%`);
   showGrocery1.style("text-align: center");
   showGrocery1.style("color: green");
   showGrocery1.hide();
 
   showGrocery2 = createDiv(groceryList[1]);
   showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery2.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGrocery2.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showGrocery2.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGrocery2.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showGrocery2.style(`font-size: ${height/button.height*25}%`);
-  showGrocery2.style(`line-height: ${height/button.height*150}%`);
+  showGrocery2.style(`line-height: ${height/button.height*110}%`);
   showGrocery2.style("text-align: center");
   showGrocery2.style("color: green");
   showGrocery2.hide();
 
   showGrocery3 = createDiv(groceryList[2]);
   showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery3.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGrocery3.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showGrocery3.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGrocery3.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showGrocery3.style(`font-size: ${height/button.height*25}%`);
-  showGrocery3.style(`line-height: ${height/button.height*200}%`);
+  showGrocery3.style(`line-height: ${height/button.height*160}%`);
   showGrocery3.style("text-align: center");
   showGrocery3.style("color: green");
   showGrocery3.hide();
 
   showGrocery4 = createDiv(groceryList[3]);
   showGrocery4.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery4.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGrocery4.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showGrocery4.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGrocery4.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showGrocery4.style(`font-size: ${height/button.height*25}%`);
-  showGrocery4.style(`line-height: ${height/button.height*250}%`);
+  showGrocery4.style(`line-height: ${height/button.height*210}%`);
   showGrocery4.style("text-align: center");
   showGrocery4.style("color: green");
   showGrocery4.hide();
 
   showGrocery5 = createDiv(groceryList[4]);
   showGrocery5.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
+  showGrocery5.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
+  showGrocery5.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
   showGrocery5.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
   showGrocery5.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
   showGrocery5.style(`font-size: ${height/button.height*25}%`);
-  showGrocery5.style(`line-height: ${height/button.height*300}%`);
+  showGrocery5.style(`line-height: ${height/button.height*260}%`);
   showGrocery5.style("text-align: center");
   showGrocery5.style("color: green");
   showGrocery5.hide();
-
-  // if (gameScreen === "Game On") {
-  //   showList.show();
-  //   showGrocery1.show();
-  //   showGrocery2.show();
-  //   showGrocery3.show();
-  //   showGrocery4.show();
-  //   showGrocery5.show();
-
-  //   if (keyIsPressed && keyCode === LEFT_ARROW) {
-  //     // showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
-  //     // showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
-  //     // showList.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
-  //     // showList.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showList.style(`height: ${(button.ycor + button.height/2)/height*250}%`);
-  //     // showList.style(`font-size: ${height/button.height*25}%`);
-  //     // showList.style(`line-height: ${height/button.height*10}%`);
-  //     // showList.style("text-align: center");
-  //     showList.style("color: black");
-  //     // showList.style("background-color: black");
-    
-  //     // showGrocery1 = createDiv(groceryList[0]);
-  //     // showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showGrocery1.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showGrocery1.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  //     // showGrocery1.style(`font-size: ${height/button.height*25}%`);
-  //     // showGrocery1.style(`line-height: ${height/button.height*100}%`);
-  //     // showGrocery1.style("text-align: center");
-  //     showGrocery1.style("color: black");
-    
-  //     // showGrocery2 = createDiv(groceryList[1]);
-  //     // showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showGrocery2.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showGrocery2.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  //     // showGrocery2.style(`font-size: ${height/button.height*25}%`);
-  //     // showGrocery2.style(`line-height: ${height/button.height*150}%`);
-  //     // showGrocery2.style("text-align: center");
-  //     showGrocery2.style("color: black");
-    
-  //     // showGrocery3 = createDiv(groceryList[2]);
-  //     // showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showGrocery3.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showGrocery3.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  //     // showGrocery3.style(`font-size: ${height/button.height*25}%`);
-  //     // showGrocery3.style(`line-height: ${height/button.height*200}%`);
-  //     // showGrocery3.style("text-align: center");
-  //     showGrocery3.style("color: black");
-    
-  //     // showGrocery4 = createDiv(groceryList[3]);
-  //     // showGrocery4.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showGrocery4.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showGrocery4.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  //     // showGrocery4.style(`font-size: ${height/button.height*25}%`);
-  //     // showGrocery4.style(`line-height: ${height/button.height*250}%`);
-  //     // showGrocery4.style("text-align: center");
-  //     showGrocery4.style("color: black");
-    
-  //     // showGrocery5 = createDiv(groceryList[4]);
-  //     // showGrocery5.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  //     // showGrocery5.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  //     // showGrocery5.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  //     // showGrocery5.style(`font-size: ${height/button.height*25}%`);
-  //     // showGrocery5.style(`line-height: ${height/button.height*300}%`);
-  //     // showGrocery5.style("text-align: center");
-  //     showGrocery5.style("color: black");  
-  //   }
-  // }
-}
-
-function displayGroceries() {
-  // showGroceries = createDiv("GROCERIES:");
-  // showGroceries.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  // showGroceries.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
-  // showGroceries.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
-  // showGroceries.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  // showGroceries.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  // showGroceries.style("background-color: red");
-  // showGroceries.style("color: green");
-  // showGroceries.style(`font-size: ${height/button.height*50}%`);
-  // showGroceries.style(`line-height: ${height/button.height*25}%`);
-  // showGroceries.hide();
-
-  // showFruits = createDiv("FRUITS");
-  // showFruits.position((button.addItemsButtonXcor + button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
-  // showFruits.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
-  // showFruits.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
-  // showFruits.style(`width: ${(button.viewListButtonXcor + button.width/2)/width*100}%`);
-  // showFruits.style(`height: ${(button.ycor + button.height/2)/height*100}%`);
-  // showFruits.style("color: green");
-  // showFruits.style(`font-size: ${height/button.height*50}%`);
-  // showFruits.style(`line-height: ${height/button.height*25}%`);
-  // showFruits.hide();
-
-  // if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText) {
-  //   showGroceries.show();
-  //   showFruits.show();
-  // }
 }
 
 function displayList() {
@@ -406,16 +360,7 @@ function displayList() {
   showGrocery4.show();
   showGrocery5.show();
 
-  if (keyIsPressed && keyCode === LEFT_ARROW) {
-    showList.hide();
-    showGrocery1.hide();
-    showGrocery2.hide();
-    showGrocery3.hide();
-    showGrocery4.hide();
-    showGrocery5.hide();
-
-    listDisplayed = false;
-  }
+  listDisplayed = true;
 }
 
 function game() {
@@ -428,7 +373,7 @@ function game() {
     text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
 
     if (listDisplayed === false) {
-      // displayGroceries();
+      displayGroceries();
       groceriesDisplayed = true;
     }
   }
@@ -438,21 +383,5 @@ function game() {
     rect(button.viewListButtonXcor, button.ycor, button.width, button.height);
     fill(50);
     text(button.viewListText, button.viewListButtonXcor, button.textYcor);
-
-    if (mouseIsPressed && groceriesDisplayed === false) {
-      displayList();
-      listDisplayed = true;
-    }
-  }
-}
-
-function keyPressed() {
-  if (key === "c") {
-    showList.hide();
-    showGrocery1.hide();
-    showGrocery2.hide();
-    showGrocery3.hide();
-    showGrocery4.hide();
-    showGrocery5.hide();
   }
 }
