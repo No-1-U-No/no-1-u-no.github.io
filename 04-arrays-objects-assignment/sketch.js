@@ -19,7 +19,7 @@ let items = 0;
 let listDisplayed = false;
 let groceriesDisplayed = false;
 
-let groceryList = ["I", "THINK", "I", "GET", "THIS?"];
+let groceryList = [];
 
 let fruits = ["Apples", "Bananas", "Cherries", "Grapes", "Oranges"];
 let vegetables = ["Broccoli", "Carrots", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
@@ -27,6 +27,13 @@ let meat = ["Beef", "Chicken", "Duck", "Lamb", "Pork"];
 
 let boyImage;
 let dadImage;
+
+let boyWant;
+let boyNoWant;
+let dadAddList;
+let dadNoAddList;
+let dadHappy;
+let dadAngry;
 
 let introScreen;
 
@@ -45,6 +52,7 @@ let showVegetables;
 let showMeat;
 let groceries;
 
+let showList;
 let showGrocery1;
 let showGrocery2;
 let showGrocery3;
@@ -60,6 +68,20 @@ function preload() {
   
   boyImage = loadImage("annoying-boy.png");
   dadImage = loadImage("annoyed-dad.png");
+
+  boyWant = loadSound("boy-want.mp4");
+  boyNoWant = loadSound("boy-no-want.mp4");
+  dadAddList = loadSound("dad-add-list.mp4");
+  dadNoAddList = loadSound("dad-no-add-list.mp4");
+  dadHappy = loadSound("dad-happy.mp4");
+  dadAngry = loadSound("dad-angry.mp4");
+
+  boyWant.setVolume(0.5);
+  boyNoWant.setVolume(0.5);
+  dadAddList.setVolume(0.5);
+  dadNoAddList.setVolume(0.5);
+  dadHappy.setVolume(0.5);
+  dadAngry.setVolume(1.0);
 }
 
 function setup() {
@@ -222,7 +244,7 @@ function displayButtons() {
     leftViewListText: showBoy.secondBoyXcor - introScreen.textSize - showBoy.width/2,
     rightViewListText: showBoy.secondBoyXcor - introScreen.textSize + showBoy.width/2,
     topText: height/15.5,
-    bottomText: (3*height)/15.5,
+    bottomText: 3*height/15.5,
   };
 
   return button;
@@ -248,6 +270,10 @@ function displayGameScreen() {
   
   fill("red");
   text(patience, showDad.xcor, button.textYcor, showDad.width, button.height);
+}
+
+function newComputerBoyChoice() {
+  computerBoyChoice = random(computerBoyChoices);
 }
 
 function displayCategories() {
@@ -501,6 +527,22 @@ function displayGroceries() {
       rect(showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
       fill(50);
       text(showFruits.applesText, showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          groceryList.push(showFruits.applesText);
+          newComputerBoyChoice();
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -674,16 +716,6 @@ function displayGroceries() {
     }
   }
 
-
-
-
-
-
-
-
-
-
-
   if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.topText && mouseY <= showMeat.bottomText) {
     fill(50);
     rect(showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
@@ -761,7 +793,7 @@ function createList() {
   showList.style("background-color: black");
   showList.hide();
 
-  showGrocery1 = createDiv(groceryList[0]);
+  showGrocery1 = createDiv(`${groceryList[0]}`);
   showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery1.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGrocery1.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
@@ -854,4 +886,8 @@ function game() {
     fill(50);
     text(button.viewListText, button.viewListButtonXcor, button.textYcor);
   }
+}
+
+function resetGame() {
+  displayGameScreen();
 }
