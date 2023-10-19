@@ -395,7 +395,48 @@ function displayVegetables() {
 }
 
 function displayMeat() {
-  text("YO", 10, 10, 10, 10);
+  let showMeat = {
+    xcor: categories.meatXcor,
+    width: categories.meatWidth,
+    height: categories.height/2,
+    textSize: introScreen.textSize,
+
+    beefText: meat[0],
+    beefYcor: showFruits.applesYcor,
+
+    chickenText: meat[1],
+    chickenYcor: showFruits.bananasYcor,
+
+    duckText: meat[2],
+    duckYcor: showFruits.cherriesYcor,
+
+    lambText: meat[3],
+    lambYcor: showFruits.grapesYcor,
+
+    porkText: meat[4],
+    porkYcor: showFruits.orangesYcor,
+
+    leftText: categories.meatXcor - categories.meatWidth/2,
+    rightText: categories.meatXcor + categories.meatWidth/2,
+    topText: categories.ycor - categories.height/2,
+    bottomText: 3.75*categories.ycor + categories.height/4,
+
+    beefTopText: showFruits.applesTopText,
+    beefBottomText: showFruits.applesBottomText,
+
+    chickenTopText: showFruits.bananasTopText,
+    chickenBottomText: showFruits.bananasBottomText,
+
+    duckTopText: showFruits.cherriesTopText,
+    duckBottomText: showFruits.cherriesBottomText,
+
+    lambTopText: showFruits.grapesTopText,
+    lambBottomText: showFruits.grapesBottomText,
+
+    porkTopText: showFruits.orangesTopText,
+  };
+
+  return showMeat;
 }
 
 function displayGroceries() {
@@ -435,6 +476,17 @@ function displayGroceries() {
   rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
   fill("green");
   text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);
+
+  if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.topText && mouseY <= showMeat.bottomText) {
+    fill(50);
+    rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
+    fill("green");
+    text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);  
+  }
+
+  else if (mouseY >= showMeat.bottomText) {
+    groceriesDisplayed = false;
+  }
   
   textSize(introScreen.textSize);
 
@@ -619,6 +671,78 @@ function displayGroceries() {
       rect(showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
       fill(50);
       text(showVegetables.tomatoesText, showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);  
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+  if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.topText && mouseY <= showMeat.bottomText) {
+    fill(50);
+    rect(showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
+    fill("green");
+    text(showMeat.beefText, showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
+
+    if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.beefTopText && mouseY <= showMeat.beefBottomText) {
+      fill("green");
+      rect(showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
+      fill(50);
+      text(showMeat.beefText, showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
+    }
+
+    fill(50);
+    rect(showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
+    fill("green");
+    text(showMeat.chickenText, showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
+
+    if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.chickenTopText && mouseY <= showMeat.chickenBottomText) {
+      fill("green");
+      rect(showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
+      fill(50);
+      text(showMeat.chickenText, showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
+    }
+  
+    fill(50);
+    rect(showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);
+    fill("green");
+    text(showMeat.duckText, showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);
+
+    if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.duckTopText && mouseY <= showMeat.duckBottomText) {
+      fill("green");
+      rect(showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);
+      fill(50);
+      text(showMeat.duckText, showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);  
+    }
+  
+    fill(50);
+    rect(showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);
+    fill("green");
+    text(showMeat.lambText, showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);
+
+    if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.lambTopText && mouseY <= showMeat.lambBottomText) {
+      fill("green");
+      rect(showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);
+      fill(50);
+      text(showMeat.lambText, showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);  
+    }
+  
+    fill(50);
+    rect(showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
+    fill("green");
+    text(showMeat.porkText, showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
+
+    if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.porkTopText && mouseY <= showMeat.bottomText) {
+      fill("green");
+      rect(showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
+      fill(50);
+      text(showMeat.porkText, showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
     }
   }
 }
