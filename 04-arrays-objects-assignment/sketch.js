@@ -21,6 +21,12 @@ let groceriesDisplayed = false;
 
 let groceryList = [];
 
+let grocery1;
+let grocery2;
+let grocery3;
+let grocery4;
+let grocery5;
+
 let fruits = ["Apples", "Bananas", "Cherries", "Grapes", "Oranges"];
 let vegetables = ["Broccoli", "Carrots", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
 let meat = ["Beef", "Chicken", "Duck", "Lamb", "Pork"];
@@ -145,11 +151,36 @@ function keyPressed() {
 
   if (keyCode === ESCAPE) {
     showList.hide();
-    showGrocery1.hide();
-    showGrocery2.hide();
-    showGrocery3.hide();
-    showGrocery4.hide();
-    showGrocery5.hide();
+
+    if (items === 1) {
+      showGrocery1.hide();
+    }
+    
+    if (items === 2) {
+      showGrocery1.hide();
+      showGrocery2.hide();
+    }
+
+    if (items === 3) {
+      showGrocery1.hide();
+      showGrocery2.hide();
+      showGrocery3.hide();
+    }
+
+    if (items === 4) {
+      showGrocery1.hide();
+      showGrocery2.hide();
+      showGrocery3.hide();
+      showGrocery4.hide();
+    }
+
+    if (items === 5) {
+      showGrocery1.hide();
+      showGrocery2.hide();
+      showGrocery3.hide();
+      showGrocery4.hide();
+      showGrocery5.hide();
+    }
 
     listDisplayed = false;
   }
@@ -165,9 +196,9 @@ function displayIntroScreens() {
     textBoxHeight: height,
 
     textSize: 0.03125*width,
-    textYcor: height/2 - 0.0625*width,
-    descriptionText: "Dad needs to go to the grocery store, but his twin boys are extremely difficult when it comes to making the list. One boy asks for too many things, while the other complains about nearly anything his brother asks for. Both behaviours frustrate Dad, and he will eventually blow up.",
-    instructionsText: "You are the boy who asks for everything. If you ask Dad for healthy food and both him and your brother are happy with it, Dad will add it to the list. If Dad rejects 5 of your requests before completing a list with 5 items on it, you and your brother will be grounded for a week.",
+    textYcor: height/2 - 0.078125*width,
+    descriptionText: "Dad needs to go to the grocery store, but his twin boys are extremely difficult when it comes to making the list. One boy asks for too many things while the other randomly complains about some of the things his brother asks for. Dad only adds the first boy's requests if the second boy approves.",
+    instructionsText: "You are the boy who asks for everything. You can ask for whatever you want, but if your brother complains 5 times prior to completing a list with 5 items on it, both of you will get grounded for a week. Here's a tip during the game: when you want to close the list view, click the Escape button.",
     
     footerSize: 0.025*width,
     footerYcor: 0.9625*height - 0.0125*width,
@@ -504,9 +535,9 @@ function displayGroceries() {
   text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);
 
   if (mouseX >= showMeat.leftText && mouseX <= showMeat.rightText && mouseY >= showMeat.topText && mouseY <= showMeat.bottomText) {
-    fill(50);
-    rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
     fill("green");
+    rect(categories.meatXcor, categories.ycor, categories.meatWidth, categories.height);
+    fill(50);
     text(categories.meatText, categories.meatXcor, categories.textYcor, categories.meatWidth, categories.height);  
   }
 
@@ -533,8 +564,29 @@ function displayGroceries() {
 
         if (computerBoyChoice === "Yes") {
           boyWant.play();
-          groceryList.push(showFruits.applesText);
+          items ++;
           newComputerBoyChoice();
+          groceryList.push(showFruits.applesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
         }
 
         else {
@@ -555,6 +607,43 @@ function displayGroceries() {
       rect(showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
       fill(50);
       text(showFruits.bananasText, showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showFruits.bananasText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -566,7 +655,44 @@ function displayGroceries() {
       fill("green");
       rect(showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);
       fill(50);
-      text(showFruits.cherriesText, showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);  
+      text(showFruits.cherriesText, showFruits.xcor, showFruits.cherriesYcor, showFruits.width, showFruits.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showFruits.cherriesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -578,7 +704,44 @@ function displayGroceries() {
       fill("green");
       rect(showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);
       fill(50);
-      text(showFruits.grapesText, showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);  
+      text(showFruits.grapesText, showFruits.xcor, showFruits.grapesYcor, showFruits.width, showFruits.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showFruits.grapesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -591,6 +754,43 @@ function displayGroceries() {
       rect(showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
       fill(50);
       text(showFruits.orangesText, showFruits.xcor, showFruits.orangesYcor, showFruits.width, showFruits.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showFruits.orangesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   }
 
@@ -604,7 +804,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.broccoliText, showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.broccoliText, showVegetables.leftXcor, showVegetables.broccoliYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.broccoliText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -616,7 +853,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.carrotsText, showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.carrotsText, showVegetables.leftXcor, showVegetables.carrotsYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.carrotsText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -628,7 +902,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.cucumbersText, showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.cucumbersText, showVegetables.leftXcor, showVegetables.cucumbersYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.cucumbersText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -640,7 +951,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.lettuceText, showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.lettuceText, showVegetables.leftXcor, showVegetables.lettuceYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.lettuceText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -652,7 +1000,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.mushroomsText, showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.mushroomsText, showVegetables.leftXcor, showVegetables.mushroomsYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.mushroomsText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -664,7 +1049,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.onionsText, showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.onionsText, showVegetables.rightXcor, showVegetables.onionsYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.onionsText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -676,7 +1098,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.peppersText, showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.peppersText, showVegetables.rightXcor, showVegetables.peppersYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.peppersText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -688,7 +1147,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.potatoesText, showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.potatoesText, showVegetables.rightXcor, showVegetables.potatoesYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.potatoesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -700,7 +1196,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.spinachText, showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.spinachText, showVegetables.rightXcor, showVegetables.spinachYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.spinachText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -712,7 +1245,44 @@ function displayGroceries() {
       fill("green");
       rect(showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
       fill(50);
-      text(showVegetables.tomatoesText, showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);  
+      text(showVegetables.tomatoesText, showVegetables.rightXcor, showVegetables.tomatoesYcor, showVegetables.width, showVegetables.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+  
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showVegetables.tomatoesText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+  
+          else if (items === 2) {
+            createGrocery2();
+          }
+  
+          else if (items === 3) {
+            createGrocery3();
+          }
+  
+          else if (items === 4) {
+            createGrocery4();
+          }
+  
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+  
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   }
 
@@ -727,6 +1297,43 @@ function displayGroceries() {
       rect(showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
       fill(50);
       text(showMeat.beefText, showMeat.xcor, showMeat.beefYcor, showMeat.width, showMeat.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showMeat.beefText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
 
     fill(50);
@@ -739,6 +1346,43 @@ function displayGroceries() {
       rect(showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
       fill(50);
       text(showMeat.chickenText, showMeat.xcor, showMeat.chickenYcor, showMeat.width, showMeat.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showMeat.chickenText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -751,6 +1395,43 @@ function displayGroceries() {
       rect(showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);
       fill(50);
       text(showMeat.duckText, showMeat.xcor, showMeat.duckYcor, showMeat.width, showMeat.height);  
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showMeat.duckText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -762,7 +1443,44 @@ function displayGroceries() {
       fill("green");
       rect(showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);
       fill(50);
-      text(showMeat.lambText, showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);  
+      text(showMeat.lambText, showMeat.xcor, showMeat.lambYcor, showMeat.width, showMeat.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showMeat.lambText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   
     fill(50);
@@ -775,6 +1493,43 @@ function displayGroceries() {
       rect(showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
       fill(50);
       text(showMeat.porkText, showMeat.xcor, showMeat.porkYcor, showMeat.width, showMeat.height);
+
+      if (mouseIsPressed) {
+        groceriesDisplayed = false;
+
+        if (computerBoyChoice === "Yes") {
+          boyWant.play();
+          items ++;
+          newComputerBoyChoice();
+          groceryList.push(showMeat.porkText);
+          
+          if (items === 1) {
+            createGrocery1();
+          }
+
+          else if (items === 2) {
+            createGrocery2();
+          }
+
+          else if (items === 3) {
+            createGrocery3();
+          }
+
+          else if (items === 4) {
+            createGrocery4();
+          }
+
+          else if (items === 5) {
+            createGrocery5();
+          }
+        }
+
+        else {
+          boyNoWant.play();
+          patience --;
+          newComputerBoyChoice();
+        }
+      }
     }
   }
 }
@@ -792,7 +1547,9 @@ function createList() {
   showList.style("color: green");
   showList.style("background-color: black");
   showList.hide();
+}
 
+function createGrocery1() {
   showGrocery1 = createDiv(`${groceryList[0]}`);
   showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery1.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -804,8 +1561,10 @@ function createList() {
   showGrocery1.style("text-align: center");
   showGrocery1.style("color: green");
   showGrocery1.hide();
+}
 
-  showGrocery2 = createDiv(groceryList[1]);
+function createGrocery2() {
+  showGrocery2 = createDiv(`${groceryList[1]}`);
   showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery2.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGrocery2.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
@@ -816,8 +1575,10 @@ function createList() {
   showGrocery2.style("text-align: center");
   showGrocery2.style("color: green");
   showGrocery2.hide();
+}
 
-  showGrocery3 = createDiv(groceryList[2]);
+function createGrocery3() {
+  showGrocery3 = createDiv(`${groceryList[2]}`);
   showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery3.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGrocery3.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
@@ -828,8 +1589,10 @@ function createList() {
   showGrocery3.style("text-align: center");
   showGrocery3.style("color: green");
   showGrocery3.hide();
+}
 
-  showGrocery4 = createDiv(groceryList[3]);
+function createGrocery4() {
+  showGrocery4 = createDiv(`${groceryList[3]}`);
   showGrocery4.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery4.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGrocery4.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
@@ -840,8 +1603,10 @@ function createList() {
   showGrocery4.style("text-align: center");
   showGrocery4.style("color: green");
   showGrocery4.hide();
+}
 
-  showGrocery5 = createDiv(groceryList[4]);
+function createGrocery5() {
+  showGrocery5 = createDiv(`${groceryList[4]}`);
   showGrocery5.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery5.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
   showGrocery5.style(`top: ${(button.ycor - button.height/2)/height*50}%`);
@@ -855,14 +1620,39 @@ function createList() {
 }
 
 function displayList() {
-  showList.show();
-  showGrocery1.show();
-  showGrocery2.show();
-  showGrocery3.show();
-  showGrocery4.show();
-  showGrocery5.show();
-
   listDisplayed = true;
+
+  showList.show();
+
+  if (items === 1) {
+    showGrocery1.show();
+  }
+ 
+  if (items === 2) {
+    showGrocery1.show();
+    showGrocery2.show();
+  }
+
+  if (items === 3) {
+    showGrocery1.show();
+    showGrocery2.show();
+    showGrocery3.show();
+  }
+
+  if (items === 4) {
+    showGrocery1.show();
+    showGrocery2.show();
+    showGrocery3.show();
+    showGrocery4.show();
+  }
+  
+  if (items === 5) {
+    showGrocery1.show();
+    showGrocery2.show();
+    showGrocery3.show();
+    showGrocery4.show();
+    showGrocery5.show();
+  }
 }
 
 function game() {
