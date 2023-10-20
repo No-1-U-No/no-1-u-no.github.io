@@ -3,29 +3,18 @@
 // October 19, 2023
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-// Browser window school computer: (1600, 775)
-// Browser window school computer inspecting elements: (1045, 775)
-
-// Browser window smaller school computer: (1072, 738)
-// Browser window smaller school computer inspecting elements: (517, 738)
+// When you click on "View List" on the game screen, it displays all the items that Dad has added to the list; OR, when you hover over "Add Items" on the game screen, different popups with grocery categories and grocery items appear in a mostly responsive manner
 
 let gameScreen = "Game Description";
 
 let patience = 5;
 let items = 0;
 
-let listDisplayed = false;
+// Setting state variables that are triggered when hovering over "Add Items" and clicking "View List", respectively
 let groceriesDisplayed = false;
+let listDisplayed = false;
 
 let groceryList = [];
-
-let grocery1;
-let grocery2;
-let grocery3;
-let grocery4;
-let grocery5;
 
 let fruits = ["Apples", "Bananas", "Cherries", "Grapes", "Oranges"];
 let vegetables = ["Broccoli", "Carrots", "Cucumbers", "Lettuce", "Mushrooms", "Onions", "Peppers", "Potatoes", "Spinach", "Tomatoes"];
@@ -36,28 +25,9 @@ let dadImage;
 
 let boyWant;
 let boyNoWant;
-let dadAddList;
-let dadNoAddList;
-let dadHappy;
 let dadAngry;
 
-let introScreen;
-
-let showBoy;
-let showDad;
-
-let playerBoy;
-let dad;
-let computerBoy;
-
-let button;
-
-let categories;
-let showFruits;
-let showVegetables;
-let showMeat;
-let groceries;
-
+// <div> elements
 let showList;
 let showGrocery1;
 let showGrocery2;
@@ -65,58 +35,37 @@ let showGrocery3;
 let showGrocery4;
 let showGrocery5;
 
+// Your brother randomly picks between yes and no to whatever you ask Dad for
 let computerBoyChoices;
 let computerBoyChoice;
 
 function preload() {
   // Boy image source: https://metro.co.uk/wp-content/uploads/2015/08/child-screaming.jpg
   // Dad image source: https://media.istockphoto.com/id/1130554249/photo/elderly-man-in-white-shirt-with-his-arms-crossed-looking-depressed-and-annoyed.jpg?s=612x612&w=0&k=20&c=MJu2j1FeHF6vIKeiizq-enVRf6aotyRBVVNILldtZds=
-  
   boyImage = loadImage("annoying-boy.png");
   dadImage = loadImage("annoyed-dad.png");
 
+  // Boy want and no want sources: me
+  // Dad angry source: one of my sound effects machines
   boyWant = loadSound("boy-want.mp4");
   boyNoWant = loadSound("boy-no-want.mp4");
-  dadAddList = loadSound("dad-add-list.mp4");
-  dadNoAddList = loadSound("dad-no-add-list.mp4");
-  dadHappy = loadSound("dad-happy.mp4");
   dadAngry = loadSound("dad-angry.mp4");
-
-  boyWant.setVolume(0.5);
-  boyNoWant.setVolume(0.5);
-  dadAddList.setVolume(0.5);
-  dadNoAddList.setVolume(0.5);
-  dadHappy.setVolume(0.5);
-  dadAngry.setVolume(1.0);
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  introScreen = displayIntroScreens();
-  showBoy = displayBoys();
-  showDad = displayDad();
-  button = displayButtons();
-  categories = displayCategories();
-  showFruits = displayFruits();
-  showVegetables = displayVegetables();
-  showMeat = displayMeat();
-  groceries = displayGroceries();
+  displayObjects();
+
+  // Creates header <div> when game starts; each item <div> will spawn if Dad adds an item to the list
   createList();
+
   computerBoyChoices = ["Yes", "No"];
   computerBoyChoice = random(computerBoyChoices);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  introScreen = displayIntroScreens();
-  showBoy = displayBoys();
-  showDad = displayDad();
-  button = displayButtons();
-  categories = displayCategories();
-  showFruits = displayFruits();
-  showVegetables = displayVegetables();
-  showMeat = displayMeat();
-  groceries = displayGroceries();
+  displayObjects();
 }
 
 function draw() {
@@ -132,6 +81,16 @@ function draw() {
     background(0);
     game();
   }
+
+  if (gameScreen === "Get Groceries") {
+    background(0);
+    win();
+  }
+
+  if (gameScreen === "Get Grounded") {
+    background(0);
+    loss();
+  }
 }
 
 function mousePressed() {
@@ -139,7 +98,7 @@ function mousePressed() {
     gameScreen = "Game Instructions";
   }
 
-  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText && gameScreen === "Game On") {
+  if (gameScreen === "Game On" && mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText) {
     displayList();
   }
 }
@@ -149,18 +108,23 @@ function keyPressed() {
     gameScreen = "Game On";
   }
 
+  // When you click "Escape", it hides the list
   if (keyCode === ESCAPE) {
+    listDisplayed = false;
     showList.hide();
 
+    // If the list has one item, it only has to hide the one item
     if (items === 1) {
       showGrocery1.hide();
     }
     
+    // If the list has two items, it hides both the first and second items
     if (items === 2) {
       showGrocery1.hide();
       showGrocery2.hide();
     }
 
+    // Following "if" statements follow the same pattern as above
     if (items === 3) {
       showGrocery1.hide();
       showGrocery2.hide();
@@ -181,12 +145,25 @@ function keyPressed() {
       showGrocery4.hide();
       showGrocery5.hide();
     }
-
-    listDisplayed = false;
   }
 }
 
+function displayObjects() {
+  // All objects (storing several variables filled with math) are saved here, called in both setup() and windowResized()
+  introScreen = displayIntroScreens();
+  showBoy = displayBoys();
+  showDad = displayDad();
+  button = displayButtons();
+  categories = displayCategories();
+  showFruits = displayFruits();
+  showVegetables = displayVegetables();
+  showMeat = displayMeat();
+  groceries = displayGroceries();
+  textBoxes = displayGameOverScreens();
+}
+
 function displayIntroScreens() {
+  // Object to store coordinates and sizes of things appearing on the description() and instruction() screens
   let introScreen = {
     titleSize: 0.0625*width,
     titleText: "DOUBLE TROUBLE",
@@ -270,6 +247,7 @@ function displayButtons() {
     addItemsText: "ADD ITEMS",
     viewListText: "VIEW LIST",
 
+    // Boundaries of "Add Items" and "View List" buttons (for mouse-hovering and changing colour detection)
     leftAddItemsText: showBoy.firstBoyXcor + introScreen.textSize - showBoy.width/2,
     rightAddItemsText: showBoy.firstBoyXcor + introScreen.textSize + showBoy.width/2,
     leftViewListText: showBoy.secondBoyXcor - introScreen.textSize - showBoy.width/2,
@@ -284,9 +262,9 @@ function displayButtons() {
 function displayGameScreen() {
   imageMode(CENTER);
 
-  playerBoy = image(boyImage, showBoy.firstBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
-  dad = image(dadImage, showDad.xcor, showDad.ycor, showDad.width, showDad.height);
-  computerBoy = image(boyImage, showBoy.secondBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
+  image(boyImage, showBoy.firstBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
+  image(dadImage, showDad.xcor, showDad.ycor, showDad.width, showDad.height);
+  image(boyImage, showBoy.secondBoyXcor, showBoy.ycor, showBoy.width, showBoy.height);
   
   fill(50);
   rectMode(CENTER);
@@ -304,10 +282,13 @@ function displayGameScreen() {
 }
 
 function newComputerBoyChoice() {
+  // computerBoyChoice() is defined in the setup(), but leaving it at that would make your brother give the same answer every single time
+  // This makes your brother decide something new every time you click on a new item
   computerBoyChoice = random(computerBoyChoices);
 }
 
 function displayCategories() {
+  // Food categories (in this game, just fruits, vegetables and meat)
   let categories = {
     ycor: button.ycor,
     height: button.height,
@@ -330,6 +311,7 @@ function displayCategories() {
 }
 
 function displayFruits() {
+  // Coordinates and sizes of all the fruits' buttons
   let showFruits = {
     xcor: categories.fruitsXcor,
     width: categories.fruitsWidth,
@@ -375,6 +357,7 @@ function displayFruits() {
 }
 
 function displayVegetables() {
+  // Coordinates and sizes of all the vegetables' buttons
   let showVegetables = {
     width: categories.vegetablesWidth/2,
     height: categories.height/2,
@@ -452,6 +435,7 @@ function displayVegetables() {
 }
 
 function displayMeat() {
+  // Coordinates and sizes of all the meats' buttons
   let showMeat = {
     xcor: categories.meatXcor,
     width: categories.meatWidth,
@@ -497,11 +481,13 @@ function displayMeat() {
 }
 
 function displayGroceries() {
+  // Fruits button
   fill(50);
   rect(categories.fruitsXcor, categories.ycor, categories.fruitsWidth, categories.height);
   fill("green");
   text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
 
+  // Fruits button changes colour when hovering over it
   if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.topText && mouseY <= showFruits.bottomText) {
     fill("green");
     rect(categories.fruitsXcor, categories.ycor, categories.fruitsWidth, categories.height);
@@ -509,10 +495,12 @@ function displayGroceries() {
     text(categories.fruitsText, categories.fruitsXcor, categories.textYcor, categories.fruitsWidth, categories.height);
   }
 
+  // Moving your mouse below the lowest fruit button causes the popup menus to disappear
   else if (mouseY >= showFruits.bottomText) {
     groceriesDisplayed = false;
   }
   
+  // Pattern above follows
   fill(50);
   rect(categories.vegetablesXcor, categories.ycor, categories.vegetablesWidth, categories.height);
   fill("green");
@@ -545,37 +533,45 @@ function displayGroceries() {
     groceriesDisplayed = false;
   }
   
+  // The above three buttons are for the categories; all the following ones are for each item
   textSize(introScreen.textSize);
 
+  // Apples button
   if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.topText && mouseY <= showFruits.bottomText) {
     fill(50);
     rect(showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
     fill("green");
     text(showFruits.applesText, showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
 
+    // Apples button changes colour when hovering over it
     if (mouseX >= showFruits.leftText && mouseX <= showFruits.rightText && mouseY >= showFruits.applesTopText && mouseY <= showFruits.applesBottomText) {
       fill("green");
       rect(showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
       fill(50);
       text(showFruits.applesText, showFruits.xcor, showFruits.applesYcor, showFruits.width, showFruits.height);
 
+      // Clicking on "Apples" hides the popup menus
       if (mouseIsPressed) {
         groceriesDisplayed = false;
 
+        // If your brother approves, he regenerates his random pick and the apples are pushed to the groceryList array
         if (computerBoyChoice === "Yes") {
           boyWant.play();
           items ++;
           newComputerBoyChoice();
           groceryList.push(showFruits.applesText);
           
+          // If the apples are the first item to the list, it is set as the first item to create the first item <div>
           if (items === 1) {
             createGrocery1();
           }
 
+          // If the apples are the second item to the list, it is set as the second item to create the second item <div>
           else if (items === 2) {
             createGrocery2();
           }
 
+          // Pattern from the previous comment follows for the following "else if" statements
           else if (items === 3) {
             createGrocery3();
           }
@@ -589,6 +585,7 @@ function displayGroceries() {
           }
         }
 
+        // If your brother disapproves, he regenerates his random pick and Dad's patience decreases by 1
         else {
           boyNoWant.play();
           patience --;
@@ -597,6 +594,7 @@ function displayGroceries() {
       }
     }
 
+    // Apple pattern follows for the rest of the grocery items (each category)
     fill(50);
     rect(showFruits.xcor, showFruits.bananasYcor, showFruits.width, showFruits.height);
     fill("green");
@@ -1535,6 +1533,7 @@ function displayGroceries() {
 }
 
 function createList() {
+  // <div> for grocery list header and styling/alignment (same styling/alignment for the following five <div> elements)
   showList = createDiv(`GROCERY LIST FOR ${month()}/${day()}/${year()}:`);
   showList.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showList.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -1550,6 +1549,7 @@ function createList() {
 }
 
 function createGrocery1() {
+  // <div> for first item
   showGrocery1 = createDiv(`${groceryList[0]}`);
   showGrocery1.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery1.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -1564,6 +1564,7 @@ function createGrocery1() {
 }
 
 function createGrocery2() {
+  // <div> for second item
   showGrocery2 = createDiv(`${groceryList[1]}`);
   showGrocery2.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery2.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -1578,6 +1579,7 @@ function createGrocery2() {
 }
 
 function createGrocery3() {
+  // Pattern from previous two functions follow for the following createGrocery() functions
   showGrocery3 = createDiv(`${groceryList[2]}`);
   showGrocery3.position((button.addItemsButtonXcor - button.width/2)/width*100, (button.ycor - button.height/2)/height*100);
   showGrocery3.style(`left: ${(button.addItemsButtonXcor - button.width/2)/width*50}%`);
@@ -1621,18 +1623,20 @@ function createGrocery5() {
 
 function displayList() {
   listDisplayed = true;
-
   showList.show();
 
+  // If the list has one item, it only has to show the one item
   if (items === 1) {
     showGrocery1.show();
   }
  
+  // If the list has two items, it shows both the first and second items
   if (items === 2) {
     showGrocery1.show();
     showGrocery2.show();
   }
 
+  // Following "if" statements follow the same pattern as above
   if (items === 3) {
     showGrocery1.show();
     showGrocery2.show();
@@ -1656,28 +1660,61 @@ function displayList() {
 }
 
 function game() {
-  displayGameScreen();
+  // You are able to play the game as long as the number of items are less than 5 and Dad's patience is greater than 0
+  if (items < 5 && patience > 0) {
+    displayGameScreen();
 
-  if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText && listDisplayed === false) {
-    fill("green");
-    rect(button.addItemsButtonXcor, button.ycor, button.width, button.height);
-    fill(50);
-    text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
-    groceriesDisplayed = true;
-  }
-
-  if (groceriesDisplayed) {
-    displayGroceries();
-  }
+    // Hovering over the "Add Items" button flips the groceriesDisplayed boolean to true, displaying the groceries
+    if (mouseX >= button.leftAddItemsText && mouseX <= button.rightAddItemsText && mouseY >= button.topText && mouseY <= button.bottomText && listDisplayed === false) {
+      fill("green");
+      rect(button.addItemsButtonXcor, button.ycor, button.width, button.height);
+      fill(50);
+      text(button.addItemsText, button.addItemsButtonXcor, button.textYcor);
+      groceriesDisplayed = true;
+    }
   
-  if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText && groceriesDisplayed === false) {
-    fill("green");
-    rect(button.viewListButtonXcor, button.ycor, button.width, button.height);
-    fill(50);
-    text(button.viewListText, button.viewListButtonXcor, button.textYcor);
+    if (groceriesDisplayed) {
+      displayGroceries();
+    }
+    
+    // Hovering over the "View List" button changes the button's colour, while clicking on it (called in mousePressed(), ~line 100) shows the list
+    if (mouseX >= button.leftViewListText && mouseX <= button.rightViewListText && mouseY >= button.topText && mouseY <= button.bottomText && groceriesDisplayed === false) {
+      fill("green");
+      rect(button.viewListButtonXcor, button.ycor, button.width, button.height);
+      fill(50);
+      text(button.viewListText, button.viewListButtonXcor, button.textYcor);
+    }
+  }
+
+  // If the grocery list has 5 items, the family goes grocery shopping (win)
+  else if (items === 5) {
+    gameScreen = "Get Groceries";
+  }
+
+  // If Dad's patience hits 0, you and your brother get grounded (loss)
+  else {
+    gameScreen = "Get Grounded";
   }
 }
 
-function resetGame() {
-  displayGameScreen();
+function displayGameOverScreens() {
+  let textBoxes = {
+    xcor: width/2,
+    ycor: height/2,
+    width: width,
+    height: height,
+  };
+
+  return textBoxes;
+}
+
+function win() {
+  fill("green");
+  text(`Congratulations! Dad is happy and you can all go to the grocery store to buy some ${groceryList[0].toLowerCase()}, ${groceryList[1].toLowerCase()}, ${groceryList[2].toLowerCase()}, ${groceryList[3].toLowerCase()}, and ${groceryList[4].toLowerCase()}! Have fun getting groceries!`, textBoxes.xcor, textBoxes.ycor, textBoxes.width, textBoxes.height);
+}
+
+function loss() {
+  dadAngry.play();
+  fill("red");
+  text("Oh no! Your brother pushed Dad to the max! Have fun getting grounded!", textBoxes.xcor, textBoxes.ycor, textBoxes.width, textBoxes.height);
 }
