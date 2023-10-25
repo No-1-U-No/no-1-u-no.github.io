@@ -27,6 +27,19 @@ function draw() {
   displayGrid();
 }
 
+function mousePressed() {
+  let y = Math.floor(mouseY/cellSize);
+  let x = Math.floor(mouseX/cellSize);
+
+  if (grid[y][x] === 0) {
+    grid[y][x] = 1;
+  }
+
+  else if (grid[y][x] === 1) {
+    grid[y][x] = 0;
+  }
+}
+
 function keyTyped() {
   if (key === "r") {
     grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
@@ -37,10 +50,6 @@ function keyTyped() {
   }
 }
 
-// function mousePressed() {
-  
-// }
-
 function displayGrid() {
   for (let y = 0; y < GRID_SIZE; y++) {
     for (let x = 0; x < GRID_SIZE; x++) {
@@ -48,16 +57,8 @@ function displayGrid() {
         fill("white");
       }
 
-      if (grid[y][x] === 1) {
+      else if (grid[y][x] === 1) {
         fill("black");
-      }
-
-      if (grid[y][x] === 0 && mouseIsPressed) {
-        fill("black");
-      }
-
-      if (grid[y][x] === 1 && mouseIsPressed) {
-        fill("white");
       }
       
       rect(x * cellSize, y * cellSize, cellSize, cellSize);
