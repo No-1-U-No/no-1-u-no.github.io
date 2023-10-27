@@ -10,7 +10,9 @@
 - [Terrain Generation](09-terrain)
 - [Draw a Grid](10-2d-grid)
 - [Grid Neighbours](11-neighbours)
+- [Game of Life](12-game-of-life)
 
 ## Projects
 - [Interactive Scene](02-scene)
 - [Arrays/Objects Assignment](04-arrays-objects-assignment)
+- [Grid-Based Game](13-grid-based-game)
