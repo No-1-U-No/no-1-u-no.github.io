@@ -2,8 +2,13 @@
 
 let grid;
 let cellSize;
-const GRID_SIZE = 30;
+const GRID_SIZE = 40;
 let autoPlay = true;
+let gosperGun;
+
+function preload() {
+  gosperGun = loadJSON("gosper-gun.json");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -41,9 +46,13 @@ function keyTyped() {
   else if (key === " ") {
     grid = nextTurn();
   }
-
+  
   else if (key === "a") {
     autoPlay = !autoPlay;
+  }
+
+  else if (key === "g") {
+    grid = gosperGun;
   }
 }
 
@@ -76,11 +85,11 @@ function nextTurn() {
           //stay alive
           nextTurnGrid[y][x] = 1;
         }
-      }
 
-      else {
-        //died from loneliness or overpopulation
-        nextTurnGrid[y][x] = 0;
+        else {
+          //died from loneliness or overpopulation
+          nextTurnGrid[y][x] = 0;
+        }
       }
 
       if (grid[y][x] === 0) {
@@ -89,11 +98,11 @@ function nextTurn() {
           //new birth
           nextTurnGrid[y][x] = 1;
         }
-      }
 
-      else {
-        //stay dead
-        nextTurnGrid[y][x] = 0;
+        else {
+          //stay dead
+          nextTurnGrid[y][x] = 0;
+        }
       }
     }
   }

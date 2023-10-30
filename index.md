@@ -11,8 +11,9 @@
 - [Draw a Grid](10-2d-grid)
 - [Grid Neighbours](11-neighbours)
 - [Game of Life](12-game-of-life)
+- [Character in Grid](13-character-in-grid)
 
 ## Projects
 - [Interactive Scene](02-scene)
 - [Arrays/Objects Assignment](04-arrays-objects-assignment)
-- [Grid-Based Game](13-grid-based-game)
+- [Grid-Based Game](14-grid-based-game)
