@@ -15,7 +15,8 @@ const BOARD_SIZE = 10;
 
 let squareSize;
 let board = [];
-let numberingBoard;
+let centerBoard;
+let numerBoard;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -27,6 +28,9 @@ function setup() {
   else {
     squareSize = width/BOARD_SIZE;
   }
+
+  centerBoard = width/2 - BOARD_SIZE*squareSize/2;
+  //consider width/4?
 }
 
 function windowResized() {
@@ -39,6 +43,8 @@ function windowResized() {
   else {
     squareSize = width/BOARD_SIZE;
   }
+
+  centerBoard = width/2 - BOARD_SIZE*squareSize/2;
 }
 
 function draw() {
@@ -47,17 +53,17 @@ function draw() {
 }
 
 function createBoard() {
-  let numberingBoard = 110;
+  let numerBoard = 110;
 
   for (let y = 0; y < BOARD_SIZE; y++) {
     board.push([]);
 
     if (y % 2 === 0) {
-      numberingBoard -= 9;
+      numerBoard -= 9;
     }
   
     else {
-      numberingBoard -= 11;
+      numerBoard -= 11;
     }
     
     for (let x = 0; x < BOARD_SIZE; x++) {
@@ -70,7 +76,7 @@ function createBoard() {
           board[y].push("brown");
         }
 
-        numberingBoard--;
+        numerBoard--;
       }
 
       else {
@@ -82,21 +88,21 @@ function createBoard() {
           board[y].push("white");
         }
 
-        numberingBoard++;
+        numerBoard++;
       }
       
       if (board[y][x] === "white") {
         fill("white");
-        square(x*squareSize, y*squareSize, squareSize);
+        square(x*squareSize + centerBoard, y*squareSize, squareSize);
         fill("brown");
-        text(numberingBoard, x*squareSize, y*squareSize, squareSize, squareSize);
+        text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
       }
 
       else {
         fill("brown");
-        square(x*squareSize, y*squareSize, squareSize);
+        square(x*squareSize + centerBoard, y*squareSize, squareSize);
         fill("white");
-        text(numberingBoard, x*squareSize, y*squareSize, squareSize, squareSize);
+        text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
       }
     }
   }
