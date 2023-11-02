@@ -29,10 +29,7 @@ function setup() {
     squareSize = width/BOARD_SIZE;
   }
 
-  centerBoard = width/4;
-  console.log(width);
-  console.log(centerBoard);
-  console.log(BOARD_SIZE*squareSize);
+  centerBoard = (width - BOARD_SIZE*squareSize)/2;
 }
 
 function windowResized() {
@@ -46,11 +43,7 @@ function windowResized() {
     squareSize = width/BOARD_SIZE;
   }
 
-  // centerBoard = width/2 - BOARD_SIZE*squareSize/2;
-  centerBoard = width/4;
-  console.log(width);
-  console.log(centerBoard);
-  console.log(BOARD_SIZE*squareSize);
+  centerBoard = (width - BOARD_SIZE*squareSize)/2;
 }
 
 function draw() {
@@ -119,7 +112,8 @@ function createBoard() {
 }
 
 function createLadders() {
-  
+  // if (board[9][8])
+  line(board[9][8], board[9][8], board[3][7], board[3][7]);
 }
 
 function createSnakes() {
