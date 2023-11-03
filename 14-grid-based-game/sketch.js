@@ -18,6 +18,13 @@ let board = [];
 let centerBoard;
 let numerBoard;
 
+let elevenLadder;
+let fourteenLadder;
+let twentyLadder;
+let twentyThreeLadder;
+let thirtyNineLadder;
+let fortyTwoLadder;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -30,6 +37,13 @@ function setup() {
   }
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
+
+  firstLadder();
+  secondLadder();
+  thirdLadder();
+  fourthLadder();
+  fifthLadder();
+  sixthLadder();
 }
 
 function windowResized() {
@@ -44,6 +58,13 @@ function windowResized() {
   }
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
+
+  firstLadder();
+  secondLadder();
+  thirdLadder();
+  fourthLadder();
+  fifthLadder();
+  sixthLadder();
 }
 
 function draw() {
@@ -51,6 +72,72 @@ function draw() {
   createBoard();
   createLadders();
   createSnakes();
+}
+
+function firstLadder() {
+  elevenLadder = {
+    x1: centerBoard + 9.5*squareSize,
+    y1: 8.5*squareSize,
+    x2: centerBoard + 3.5*squareSize,
+    y2: 6.5*squareSize,
+  };
+
+  return elevenLadder;
+}
+
+function secondLadder() {
+  fourteenLadder = {
+    x1: centerBoard + 6.5*squareSize,
+    y1: 8.5*squareSize,
+    x2: centerBoard + 7.5*squareSize,
+    y2: 6.5*squareSize,
+  };
+
+  return fourteenLadder;
+}
+
+function thirdLadder() {
+  twentyLadder = {
+    x1: centerBoard + 0.5*squareSize,
+    y1: 8.5*squareSize,
+    x2: centerBoard + 8.5*squareSize,
+    y2: 0.5*squareSize,
+  };
+
+  return twentyLadder;
+}
+
+function fourthLadder() {
+  twentyThreeLadder = {
+    x1: centerBoard + 2.5*squareSize,
+    y1: 7.5*squareSize,
+    x2: centerBoard + 9.5*squareSize,
+    y2: 2.5*squareSize,
+  };
+
+  return twentyThreeLadder;
+}
+
+function fifthLadder() {
+  thirtyNineLadder = {
+    x1: centerBoard + 1.5*squareSize,
+    y1: 6.5*squareSize,
+    x2: centerBoard + 9.5*squareSize,
+    y2: 4.5*squareSize,
+  };
+
+  return thirtyNineLadder;
+}
+
+function sixthLadder() {
+  fortyTwoLadder = {
+    x1: centerBoard + 1.5*squareSize,
+    y1: 5.5*squareSize,
+    x2: centerBoard + 5.5*squareSize,
+    y2: 0.5*squareSize,
+  };
+
+  return fortyTwoLadder;
 }
 
 function createBoard() {
@@ -107,13 +194,15 @@ function createBoard() {
       }
     }
   }
-
-  return board;
 }
 
 function createLadders() {
-  // if (board[9][8])
-  line(board[9][8], board[9][8], board[3][7], board[3][7]);
+  line(elevenLadder.x1, elevenLadder.y1, elevenLadder.x2, elevenLadder.y2);
+  line(fourteenLadder.x1, fourteenLadder.y1, fourteenLadder.x2, fourteenLadder.y2);
+  line(twentyLadder.x1, twentyLadder.y1, twentyLadder.x2, twentyLadder.y2);
+  line(twentyThreeLadder.x1, twentyThreeLadder.y1, twentyThreeLadder.x2, twentyThreeLadder.y2);
+  line(thirtyNineLadder.x1, thirtyNineLadder.y1, thirtyNineLadder.x2, thirtyNineLadder.y2);
+  line(fortyTwoLadder.x1, fortyTwoLadder.y1, fortyTwoLadder.x2, fortyTwoLadder.y2);
 }
 
 function createSnakes() {
