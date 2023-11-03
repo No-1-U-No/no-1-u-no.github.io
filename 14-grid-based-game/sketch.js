@@ -77,9 +77,13 @@ function draw() {
 function firstLadder() {
   elevenLadder = {
     x1: centerBoard + 9.5*squareSize,
-    y1: 8.5*squareSize,
+    y1: 8.25*squareSize,
     x2: centerBoard + 3.5*squareSize,
-    y2: 6.5*squareSize,
+    y2: 6.25*squareSize,
+    x3: centerBoard + 28*squareSize/3,
+    y3: 8.75*squareSize,
+    x4: centerBoard + 10*squareSize/3,
+    y4: 6.75*squareSize,
   };
 
   return elevenLadder;
@@ -87,10 +91,14 @@ function firstLadder() {
 
 function secondLadder() {
   fourteenLadder = {
-    x1: centerBoard + 6.5*squareSize,
-    y1: 8.5*squareSize,
-    x2: centerBoard + 7.5*squareSize,
-    y2: 6.5*squareSize,
+    x1: centerBoard + 19*squareSize/3,
+    y1: 8.25*squareSize,
+    x2: centerBoard + 22*squareSize/3,
+    y2: 6.25*squareSize,
+    x3: centerBoard + 6.75*squareSize,
+    y3: 8.5*squareSize,
+    x4: centerBoard + 7.75*squareSize,
+    y4: 6.5*squareSize,
   };
 
   return fourteenLadder;
@@ -98,10 +106,14 @@ function secondLadder() {
 
 function thirdLadder() {
   twentyLadder = {
-    x1: centerBoard + 0.5*squareSize,
-    y1: 8.5*squareSize,
-    x2: centerBoard + 8.5*squareSize,
-    y2: 0.5*squareSize,
+    x1: centerBoard + squareSize/3,
+    y1: 25*squareSize/3,
+    x2: centerBoard + 25*squareSize/3,
+    y2: squareSize/3,
+    x3: centerBoard + 2*squareSize/3,
+    y3: 26*squareSize/3,
+    x4: centerBoard + 26*squareSize/3,
+    y4: 2*squareSize/3,
   };
 
   return twentyLadder;
@@ -178,6 +190,8 @@ function createBoard() {
 
         numerBoard++;
       }
+
+      noStroke();
       
       if (board[y][x] === "white") {
         fill("white");
@@ -197,9 +211,18 @@ function createBoard() {
 }
 
 function createLadders() {
+  stroke("blue");
+  strokeWeight(5);
+
   line(elevenLadder.x1, elevenLadder.y1, elevenLadder.x2, elevenLadder.y2);
+  line(elevenLadder.x3, elevenLadder.y3, elevenLadder.x4, elevenLadder.y4);
+
   line(fourteenLadder.x1, fourteenLadder.y1, fourteenLadder.x2, fourteenLadder.y2);
+  line(fourteenLadder.x3, fourteenLadder.y3, fourteenLadder.x4, fourteenLadder.y4);
+
   line(twentyLadder.x1, twentyLadder.y1, twentyLadder.x2, twentyLadder.y2);
+  line(twentyLadder.x3, twentyLadder.y3, twentyLadder.x4, twentyLadder.y4);
+
   line(twentyThreeLadder.x1, twentyThreeLadder.y1, twentyThreeLadder.x2, twentyThreeLadder.y2);
   line(thirtyNineLadder.x1, thirtyNineLadder.y1, thirtyNineLadder.x2, thirtyNineLadder.y2);
   line(fortyTwoLadder.x1, fortyTwoLadder.y1, fortyTwoLadder.x2, fortyTwoLadder.y2);
