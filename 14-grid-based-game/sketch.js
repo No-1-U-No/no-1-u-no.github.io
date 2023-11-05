@@ -19,11 +19,9 @@ let centerBoard;
 let numerBoard;
 
 let elevenLadder;
-let fourteenLadder;
 let twentyLadder;
-let twentyThreeLadder;
-let thirtyNineLadder;
 let fortyTwoLadder;
+let fiftyOneLadder;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -42,8 +40,6 @@ function setup() {
   secondLadder();
   thirdLadder();
   fourthLadder();
-  fifthLadder();
-  sixthLadder();
 }
 
 function windowResized() {
@@ -63,8 +59,6 @@ function windowResized() {
   secondLadder();
   thirdLadder();
   fourthLadder();
-  fifthLadder();
-  sixthLadder();
 }
 
 function draw() {
@@ -76,35 +70,20 @@ function draw() {
 
 function firstLadder() {
   elevenLadder = {
-    x1: centerBoard + 9.5*squareSize,
-    y1: 8.25*squareSize,
-    x2: centerBoard + 3.5*squareSize,
-    y2: 6.25*squareSize,
-    x3: centerBoard + 28*squareSize/3,
-    y3: 8.75*squareSize,
-    x4: centerBoard + 10*squareSize/3,
-    y4: 6.75*squareSize,
+    x1: centerBoard + 28*squareSize/3,
+    y1: 26*squareSize/3,
+    x2: centerBoard + 22*squareSize/3,
+    y2: 20*squareSize/3,
+    x3: centerBoard + 29*squareSize/3,
+    y3: 25*squareSize/3,
+    x4: centerBoard + 23*squareSize/3,
+    y4: 19*squareSize/3,
   };
 
   return elevenLadder;
 }
 
 function secondLadder() {
-  fourteenLadder = {
-    x1: centerBoard + 19*squareSize/3,
-    y1: 8.25*squareSize,
-    x2: centerBoard + 22*squareSize/3,
-    y2: 6.25*squareSize,
-    x3: centerBoard + 6.75*squareSize,
-    y3: 8.5*squareSize,
-    x4: centerBoard + 7.75*squareSize,
-    y4: 6.5*squareSize,
-  };
-
-  return fourteenLadder;
-}
-
-function thirdLadder() {
   twentyLadder = {
     x1: centerBoard + squareSize/3,
     y1: 25*squareSize/3,
@@ -119,37 +98,48 @@ function thirdLadder() {
   return twentyLadder;
 }
 
-function fourthLadder() {
-  twentyThreeLadder = {
-    x1: centerBoard + 2.5*squareSize,
-    y1: 7.5*squareSize,
-    x2: centerBoard + 9.5*squareSize,
-    y2: 2.5*squareSize,
-  };
-
-  return twentyThreeLadder;
-}
-
-function fifthLadder() {
-  thirtyNineLadder = {
-    x1: centerBoard + 1.5*squareSize,
-    y1: 6.5*squareSize,
-    x2: centerBoard + 9.5*squareSize,
-    y2: 4.5*squareSize,
-  };
-
-  return thirtyNineLadder;
-}
-
-function sixthLadder() {
+function thirdLadder() {
   fortyTwoLadder = {
-    x1: centerBoard + 1.5*squareSize,
-    y1: 5.5*squareSize,
-    x2: centerBoard + 5.5*squareSize,
-    y2: 0.5*squareSize,
+    x1: centerBoard + 4*squareSize/3,
+    y1: 16*squareSize/3,
+    x2: centerBoard + 16*squareSize/3,
+    y2: squareSize/3,
+    x3: centerBoard + 5*squareSize/3,
+    y3: 17*squareSize/3,
+    x4: centerBoard + 17*squareSize/3,
+    y4: 2*squareSize/3,
   };
 
   return fortyTwoLadder;
+}
+
+function fourthLadder() {
+  fiftyOneLadder = {
+    x1: centerBoard + 9.25*squareSize,
+    y1: 4.5*squareSize,
+    x2: centerBoard + 9.25*squareSize,
+    y2: 2.5*squareSize,
+    x3: centerBoard + 9.75*squareSize,
+    y3: 4.5*squareSize,
+    x4: centerBoard + 9.75*squareSize,
+    y4: 2.5*squareSize,
+  };
+
+  return fiftyOneLadder;
+}
+
+function firstLadderSteps() {
+  let x = 0;
+  for (let y = elevenLadder.y1 - squareSize/10; y > elevenLadder.y2 + squareSize/10; y -= squareSize/5) {
+    line(elevenLadder.x1 + x, elevenLadder.y1 + x, elevenLadder.x3 + x, elevenLadder.y3 + x);
+    x -= squareSize/5;
+  }
+}
+
+function fourthLadderSteps() {
+  for (let y = fiftyOneLadder.y1 - squareSize/10; y > fiftyOneLadder.y2 + squareSize/10; y -= squareSize/5) {
+    line(fiftyOneLadder.x1, y, fiftyOneLadder.x3, y);
+  }
 }
 
 function createBoard() {
@@ -217,15 +207,17 @@ function createLadders() {
   line(elevenLadder.x1, elevenLadder.y1, elevenLadder.x2, elevenLadder.y2);
   line(elevenLadder.x3, elevenLadder.y3, elevenLadder.x4, elevenLadder.y4);
 
-  line(fourteenLadder.x1, fourteenLadder.y1, fourteenLadder.x2, fourteenLadder.y2);
-  line(fourteenLadder.x3, fourteenLadder.y3, fourteenLadder.x4, fourteenLadder.y4);
-
   line(twentyLadder.x1, twentyLadder.y1, twentyLadder.x2, twentyLadder.y2);
   line(twentyLadder.x3, twentyLadder.y3, twentyLadder.x4, twentyLadder.y4);
-
-  line(twentyThreeLadder.x1, twentyThreeLadder.y1, twentyThreeLadder.x2, twentyThreeLadder.y2);
-  line(thirtyNineLadder.x1, thirtyNineLadder.y1, thirtyNineLadder.x2, thirtyNineLadder.y2);
+  
   line(fortyTwoLadder.x1, fortyTwoLadder.y1, fortyTwoLadder.x2, fortyTwoLadder.y2);
+  line(fortyTwoLadder.x3, fortyTwoLadder.y3, fortyTwoLadder.x4, fortyTwoLadder.y4);
+
+  line(fiftyOneLadder.x1, fiftyOneLadder.y1, fiftyOneLadder.x2, fiftyOneLadder.y2);
+  line(fiftyOneLadder.x3, fiftyOneLadder.y3, fiftyOneLadder.x4, fiftyOneLadder.y4);
+
+  firstLadderSteps();
+  fourthLadderSteps();
 }
 
 function createSnakes() {
