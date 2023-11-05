@@ -129,16 +129,38 @@ function fourthLadder() {
 }
 
 function firstLadderSteps() {
-  let x = 0;
-  for (let y = elevenLadder.y1 - squareSize/10; y > elevenLadder.y2 + squareSize/10; y -= squareSize/5) {
-    line(elevenLadder.x1 + x, elevenLadder.y1 + x, elevenLadder.x3 + x, elevenLadder.y3 + x);
-    x -= squareSize/5;
+  let i = -squareSize/5;
+  while (i > -2*squareSize) {
+    line(elevenLadder.x1 + i, elevenLadder.y1 + i, elevenLadder.x3 + i, elevenLadder.y3 + i);
+    i -= squareSize/5;
+  }
+}
+
+function secondLadderSteps() {
+  let i = squareSize/5;
+  while (i < 7.8*squareSize) {
+    line(twentyLadder.x1 + i, twentyLadder.y1 - i, twentyLadder.x3 + i, twentyLadder.y3 - i);
+    i += squareSize/5;
+  }
+}
+
+function thirdLadderSteps() {
+  let i = squareSize/5;
+  let j = 0;
+  let k = 0;
+  while (i < 4.8*squareSize) {
+    line(fortyTwoLadder.x1 + i + j, fortyTwoLadder.y1 - i + k, fortyTwoLadder.x3 + i + j, fortyTwoLadder.y3 - i + k);
+    i += squareSize/5;
+    j -= squareSize/25;
+    k -= squareSize/625;
   }
 }
 
 function fourthLadderSteps() {
-  for (let y = fiftyOneLadder.y1 - squareSize/10; y > fiftyOneLadder.y2 + squareSize/10; y -= squareSize/5) {
-    line(fiftyOneLadder.x1, y, fiftyOneLadder.x3, y);
+  let i = squareSize/5;
+  while (i < 2*squareSize) {
+    line(fiftyOneLadder.x1, fiftyOneLadder.y1 - i, fiftyOneLadder.x3, fiftyOneLadder.y3 - i);
+    i += squareSize/5;
   }
 }
 
@@ -217,6 +239,8 @@ function createLadders() {
   line(fiftyOneLadder.x3, fiftyOneLadder.y3, fiftyOneLadder.x4, fiftyOneLadder.y4);
 
   firstLadderSteps();
+  secondLadderSteps();
+  thirdLadderSteps();
   fourthLadderSteps();
 }
 
