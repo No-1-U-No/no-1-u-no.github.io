@@ -23,6 +23,11 @@ let twentyLadder;
 let fortyTwoLadder;
 let fiftyOneLadder;
 
+let twentyTwoSnake;
+let thirtySevenSnake;
+let fortyFiveSnake;
+let ninetySevenSnake;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
@@ -40,6 +45,11 @@ function setup() {
   secondLadder();
   thirdLadder();
   fourthLadder();
+
+  firstSnake();
+  secondSnake();
+  thirdSnake();
+  // fourthSnake();
 }
 
 function windowResized() {
@@ -59,6 +69,11 @@ function windowResized() {
   secondLadder();
   thirdLadder();
   fourthLadder();
+
+  firstSnake();
+  secondSnake();
+  thirdSnake();
+  // fourthSnake();
 }
 
 function draw() {
@@ -130,6 +145,7 @@ function fourthLadder() {
 
 function firstLadderSteps() {
   let i = -squareSize/5;
+
   while (i > -2*squareSize) {
     line(elevenLadder.x1 + i, elevenLadder.y1 + i, elevenLadder.x3 + i, elevenLadder.y3 + i);
     i -= squareSize/5;
@@ -138,7 +154,8 @@ function firstLadderSteps() {
 
 function secondLadderSteps() {
   let i = squareSize/5;
-  while (i < 7.8*squareSize) {
+
+  while (i < 8*squareSize) {
     line(twentyLadder.x1 + i, twentyLadder.y1 - i, twentyLadder.x3 + i, twentyLadder.y3 - i);
     i += squareSize/5;
   }
@@ -147,21 +164,61 @@ function secondLadderSteps() {
 function thirdLadderSteps() {
   let i = squareSize/5;
   let j = 0;
-  let k = 0;
-  while (i < 4.8*squareSize) {
+  let k = -squareSize/25;
+
+  while (i < 5*squareSize) {
     line(fortyTwoLadder.x1 + i + j, fortyTwoLadder.y1 - i + k, fortyTwoLadder.x3 + i + j, fortyTwoLadder.y3 - i + k);
     i += squareSize/5;
     j -= squareSize/25;
-    k -= squareSize/625;
   }
 }
 
 function fourthLadderSteps() {
   let i = squareSize/5;
+  
   while (i < 2*squareSize) {
     line(fiftyOneLadder.x1, fiftyOneLadder.y1 - i, fiftyOneLadder.x3, fiftyOneLadder.y3 - i);
     i += squareSize/5;
   }
+}
+
+function firstSnake() {
+  twentyTwoSnake = {
+    x1: centerBoard + 1.5*squareSize,
+    y1: 7.5*squareSize,
+    curveX: centerBoard + 3.5*squareSize,
+    curveY: 9.5*squareSize,
+    x2: centerBoard + 7.5*squareSize,
+    y2: 9.5*squareSize,
+  };
+
+  return twentyTwoSnake;
+}
+
+function secondSnake() {
+  thirtySevenSnake = {
+    x1: centerBoard + 3.5*squareSize,
+    y1: 6.5*squareSize,
+    curveX: centerBoard + 4.5*squareSize,
+    curveY: 8.5*squareSize,
+    x2: centerBoard + 6.5*squareSize,
+    y2: 8.5*squareSize,
+  };
+
+  return thirtySevenSnake;
+}
+
+function thirdSnake() {
+  fortyFiveSnake = {
+    x1: centerBoard + 4.5*squareSize,
+    y1: 5.5*squareSize,
+    curveX: centerBoard + 8.5*squareSize,
+    curveY: 5.5*squareSize,
+    x2: centerBoard + 8.5*squareSize,
+    y2: 8.5*squareSize,
+  };
+
+  return fortyFiveSnake;
 }
 
 function createBoard() {
@@ -245,5 +302,31 @@ function createLadders() {
 }
 
 function createSnakes() {
+  noFill();
+  stroke("green");
+  strokeWeight(5);
 
+  beginShape();
+  curveVertex(twentyTwoSnake.x1, twentyTwoSnake.y1);
+  curveVertex(twentyTwoSnake.x1, twentyTwoSnake.y1);
+  curveVertex(twentyTwoSnake.curveX, twentyTwoSnake.curveY);
+  curveVertex(twentyTwoSnake.x2, twentyTwoSnake.y2);
+  curveVertex(twentyTwoSnake.x2, twentyTwoSnake.y2);
+  endShape();
+
+  beginShape();
+  curveVertex(thirtySevenSnake.x1, thirtySevenSnake.y1);
+  curveVertex(thirtySevenSnake.x1, thirtySevenSnake.y1);
+  curveVertex(thirtySevenSnake.curveX, thirtySevenSnake.curveY);
+  curveVertex(thirtySevenSnake.x2, thirtySevenSnake.y2);
+  curveVertex(thirtySevenSnake.x2, thirtySevenSnake.y2);
+  endShape();
+
+  beginShape();
+  curveVertex(fortyFiveSnake.x1, fortyFiveSnake.y1);
+  curveVertex(fortyFiveSnake.x1, fortyFiveSnake.y1);
+  curveVertex(fortyFiveSnake.curveX, fortyFiveSnake.curveY);
+  curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
+  curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
+  endShape();
 }
