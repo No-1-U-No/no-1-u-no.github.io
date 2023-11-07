@@ -28,18 +28,41 @@ let thirtySevenSnake;
 let fortyFiveSnake;
 let ninetySevenSnake;
 
+let stepCor;
+let stepXcor;
+let stepYcor;
+let stepNumber;
+
+let spreadEyes;
+let spreadEyesMore;
+
+let player;
+let die;
+let dieState;
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
   if (width > height) {
     squareSize = height/BOARD_SIZE;
+
+    die = {
+      x: width - squareSize - width/160,
+      y: 4.5*squareSize,
+    };
   }
 
   else {
     squareSize = width/BOARD_SIZE;
+
+    die = {
+      x: width/2 - squareSize/2,
+      y: height - squareSize - height/160,
+    };
   }
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
+  dieState = random(1, 6);
 
   firstLadder();
   secondLadder();
@@ -49,7 +72,7 @@ function setup() {
   firstSnake();
   secondSnake();
   thirdSnake();
-  // fourthSnake();
+  fourthSnake();
 }
 
 function windowResized() {
@@ -57,10 +80,20 @@ function windowResized() {
 
   if (width > height) {
     squareSize = height/BOARD_SIZE;
+
+    die = {
+      x: width - squareSize - width/160,
+      y: 4.5*squareSize,
+    };
   }
 
   else {
     squareSize = width/BOARD_SIZE;
+
+    die = {
+      x: width/2 - squareSize/2,
+      y: height - squareSize - height/160,
+    };
   }
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
@@ -73,7 +106,7 @@ function windowResized() {
   firstSnake();
   secondSnake();
   thirdSnake();
-  // fourthSnake();
+  fourthSnake();
 }
 
 function draw() {
@@ -81,104 +114,106 @@ function draw() {
   createBoard();
   createLadders();
   createSnakes();
+  createDie();
+  createPlayer();
 }
 
 function firstLadder() {
   elevenLadder = {
-    x1: centerBoard + 28*squareSize/3,
-    y1: 26*squareSize/3,
-    x2: centerBoard + 22*squareSize/3,
-    y2: 20*squareSize/3,
-    x3: centerBoard + 29*squareSize/3,
-    y3: 25*squareSize/3,
-    x4: centerBoard + 23*squareSize/3,
-    y4: 19*squareSize/3,
+    leftX1: centerBoard + 28*squareSize/3,
+    leftY1: 26*squareSize/3,
+    leftX2: centerBoard + 22*squareSize/3,
+    leftY2: 20*squareSize/3,
+    rightX1: centerBoard + 29*squareSize/3,
+    rightY1: 25*squareSize/3,
+    rightX2: centerBoard + 23*squareSize/3,
+    rightY2: 19*squareSize/3,
   };
-
-  return elevenLadder;
 }
 
 function secondLadder() {
   twentyLadder = {
-    x1: centerBoard + squareSize/3,
-    y1: 25*squareSize/3,
-    x2: centerBoard + 25*squareSize/3,
-    y2: squareSize/3,
-    x3: centerBoard + 2*squareSize/3,
-    y3: 26*squareSize/3,
-    x4: centerBoard + 26*squareSize/3,
-    y4: 2*squareSize/3,
+    leftX1: centerBoard + squareSize/3,
+    leftY1: 25*squareSize/3,
+    leftX2: centerBoard + 25*squareSize/3,
+    leftY2: squareSize/3,
+    rightX1: centerBoard + 2*squareSize/3,
+    rightY1: 26*squareSize/3,
+    rightX2: centerBoard + 26*squareSize/3,
+    rightY2: 2*squareSize/3,
   };
-
-  return twentyLadder;
 }
 
 function thirdLadder() {
   fortyTwoLadder = {
-    x1: centerBoard + 4*squareSize/3,
-    y1: 16*squareSize/3,
-    x2: centerBoard + 16*squareSize/3,
-    y2: squareSize/3,
-    x3: centerBoard + 5*squareSize/3,
-    y3: 17*squareSize/3,
-    x4: centerBoard + 17*squareSize/3,
-    y4: 2*squareSize/3,
+    leftX1: centerBoard + 4*squareSize/3,
+    leftY1: 16*squareSize/3,
+    leftX2: centerBoard + 16*squareSize/3,
+    leftY2: squareSize/3,
+    rightX1: centerBoard + 5*squareSize/3,
+    rightY1: 17*squareSize/3,
+    rightX2: centerBoard + 17*squareSize/3,
+    rightY2: 2*squareSize/3,
   };
-
-  return fortyTwoLadder;
 }
 
 function fourthLadder() {
   fiftyOneLadder = {
-    x1: centerBoard + 9.25*squareSize,
-    y1: 4.5*squareSize,
-    x2: centerBoard + 9.25*squareSize,
-    y2: 2.5*squareSize,
-    x3: centerBoard + 9.75*squareSize,
-    y3: 4.5*squareSize,
-    x4: centerBoard + 9.75*squareSize,
-    y4: 2.5*squareSize,
+    leftX1: centerBoard + 9.25*squareSize,
+    leftY1: 4.5*squareSize,
+    leftX2: centerBoard + 9.25*squareSize,
+    leftY2: 2.5*squareSize,
+    rightX1: centerBoard + 9.75*squareSize,
+    rightY1: 4.5*squareSize,
+    rightX2: centerBoard + 9.75*squareSize,
+    rightY2: 2.5*squareSize,
   };
-
-  return fiftyOneLadder;
 }
 
 function firstLadderSteps() {
-  let i = -squareSize/5;
+  stepCor = squareSize/5;
+  stepNumber = 0;
 
-  while (i > -2*squareSize) {
-    line(elevenLadder.x1 + i, elevenLadder.y1 + i, elevenLadder.x3 + i, elevenLadder.y3 + i);
-    i -= squareSize/5;
+  while (stepNumber < 9) {
+    line(elevenLadder.leftX1 - stepCor, elevenLadder.leftY1 - stepCor, elevenLadder.rightX1 - stepCor, elevenLadder.rightY1 - stepCor);
+    stepCor += squareSize/5;
+    stepNumber++;
   }
 }
 
 function secondLadderSteps() {
-  let i = squareSize/5;
+  stepCor = squareSize/5;
+  stepNumber = 0;
 
-  while (i < 8*squareSize) {
-    line(twentyLadder.x1 + i, twentyLadder.y1 - i, twentyLadder.x3 + i, twentyLadder.y3 - i);
-    i += squareSize/5;
+  while (stepNumber < 39) {
+    line(twentyLadder.leftX1 + stepCor, twentyLadder.leftY1 - stepCor, twentyLadder.rightX1 + stepCor, twentyLadder.rightY1 - stepCor);
+    stepCor += squareSize/5;
+    stepNumber++;
   }
 }
 
 function thirdLadderSteps() {
-  let i = squareSize/5;
-  let j = 0;
-  let k = -squareSize/25;
+  stepCor = squareSize/5;
+  stepXcor = 0;
+  stepYcor = -squareSize/25;
+  stepNumber = 0;
 
-  while (i < 5*squareSize) {
-    line(fortyTwoLadder.x1 + i + j, fortyTwoLadder.y1 - i + k, fortyTwoLadder.x3 + i + j, fortyTwoLadder.y3 - i + k);
-    i += squareSize/5;
-    j -= squareSize/25;
+  while (stepNumber < 24) {
+    line(fortyTwoLadder.leftX1 + stepCor + stepXcor, fortyTwoLadder.leftY1 - stepCor + stepYcor, fortyTwoLadder.rightX1 + stepCor + stepXcor, fortyTwoLadder.rightY1 - stepCor + stepYcor);
+    stepCor += squareSize/5;
+    stepXcor -= squareSize/25;
+    stepNumber++;
   }
 }
 
 function fourthLadderSteps() {
-  let i = squareSize/5;
+  stepCor = squareSize/5;
+  stepNumber = 0;
   
-  while (i < 2*squareSize) {
-    line(fiftyOneLadder.x1, fiftyOneLadder.y1 - i, fiftyOneLadder.x3, fiftyOneLadder.y3 - i);
-    i += squareSize/5;
+  while (stepNumber < 9) {
+    line(fiftyOneLadder.leftX1, fiftyOneLadder.leftY1 - stepCor, fiftyOneLadder.rightX1, fiftyOneLadder.rightY1 - stepCor);
+    stepCor += squareSize/5;
+    stepNumber++;
   }
 }
 
@@ -191,8 +226,6 @@ function firstSnake() {
     x2: centerBoard + 7.5*squareSize,
     y2: 9.5*squareSize,
   };
-
-  return twentyTwoSnake;
 }
 
 function secondSnake() {
@@ -204,25 +237,54 @@ function secondSnake() {
     x2: centerBoard + 6.5*squareSize,
     y2: 8.5*squareSize,
   };
-
-  return thirtySevenSnake;
 }
 
 function thirdSnake() {
   fortyFiveSnake = {
     x1: centerBoard + 4.5*squareSize,
     y1: 5.5*squareSize,
-    curveX: centerBoard + 8.5*squareSize,
+    curveX: centerBoard + 7.5*squareSize,
     curveY: 5.5*squareSize,
     x2: centerBoard + 8.5*squareSize,
     y2: 8.5*squareSize,
   };
+}
 
-  return fortyFiveSnake;
+function fourthSnake() {
+  ninetySevenSnake = {
+    x1: centerBoard + 3.5*squareSize,
+    y1: 0.5*squareSize,
+    curveY1: 1.5*squareSize,
+    curveY2: 2.5*squareSize,
+    curveY3: 3.5*squareSize,
+    curveY4: 4.5*squareSize,
+    curveY5: 5.5*squareSize,
+    curveY6: 6.5*squareSize,
+    x2: centerBoard + 4.5*squareSize,
+    y2: 7.5*squareSize,
+  };
+}
+
+function snakeEyes() {
+  spreadEyes = squareSize/35;
+  spreadEyesMore = squareSize/25;
+
+  point(twentyTwoSnake.x1 - spreadEyes, twentyTwoSnake.y1 + spreadEyes);
+  point(twentyTwoSnake.x1 + spreadEyes, twentyTwoSnake.y1 - spreadEyes);
+
+  point(thirtySevenSnake.x1 - spreadEyes, thirtySevenSnake.y1 + spreadEyes);
+  point(thirtySevenSnake.x1 + spreadEyes, thirtySevenSnake.y1 - spreadEyes/2);
+
+  point(fortyFiveSnake.x1, fortyFiveSnake.y1 + spreadEyesMore);
+  point(fortyFiveSnake.x1, fortyFiveSnake.y1 - spreadEyesMore);
+
+  point(ninetySevenSnake.x1 - spreadEyesMore, ninetySevenSnake.y1);
+  point(ninetySevenSnake.x1 + spreadEyesMore, ninetySevenSnake.y1);
 }
 
 function createBoard() {
-  let numerBoard = 110;
+  noStroke();
+  numerBoard = 110;
 
   for (let y = 0; y < BOARD_SIZE; y++) {
     board.push([]);
@@ -259,18 +321,16 @@ function createBoard() {
 
         numerBoard++;
       }
-
-      noStroke();
       
       if (board[y][x] === "white") {
         fill("white");
         square(x*squareSize + centerBoard, y*squareSize, squareSize);
-        fill("brown");
+        fill("sienna");
         text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
       }
 
       else {
-        fill("brown");
+        fill("sienna");
         square(x*squareSize + centerBoard, y*squareSize, squareSize);
         fill("white");
         text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
@@ -283,17 +343,17 @@ function createLadders() {
   stroke("blue");
   strokeWeight(5);
 
-  line(elevenLadder.x1, elevenLadder.y1, elevenLadder.x2, elevenLadder.y2);
-  line(elevenLadder.x3, elevenLadder.y3, elevenLadder.x4, elevenLadder.y4);
+  line(elevenLadder.leftX1, elevenLadder.leftY1, elevenLadder.leftX2, elevenLadder.leftY2);
+  line(elevenLadder.rightX1, elevenLadder.rightY1, elevenLadder.rightX2, elevenLadder.rightY2);
 
-  line(twentyLadder.x1, twentyLadder.y1, twentyLadder.x2, twentyLadder.y2);
-  line(twentyLadder.x3, twentyLadder.y3, twentyLadder.x4, twentyLadder.y4);
+  line(twentyLadder.leftX1, twentyLadder.leftY1, twentyLadder.leftX2, twentyLadder.leftY2);
+  line(twentyLadder.rightX1, twentyLadder.rightY1, twentyLadder.rightX2, twentyLadder.rightY2);
   
-  line(fortyTwoLadder.x1, fortyTwoLadder.y1, fortyTwoLadder.x2, fortyTwoLadder.y2);
-  line(fortyTwoLadder.x3, fortyTwoLadder.y3, fortyTwoLadder.x4, fortyTwoLadder.y4);
+  line(fortyTwoLadder.leftX1, fortyTwoLadder.leftY1, fortyTwoLadder.leftX2, fortyTwoLadder.leftY2);
+  line(fortyTwoLadder.rightX1, fortyTwoLadder.rightY1, fortyTwoLadder.rightX2, fortyTwoLadder.rightY2);
 
-  line(fiftyOneLadder.x1, fiftyOneLadder.y1, fiftyOneLadder.x2, fiftyOneLadder.y2);
-  line(fiftyOneLadder.x3, fiftyOneLadder.y3, fiftyOneLadder.x4, fiftyOneLadder.y4);
+  line(fiftyOneLadder.leftX1, fiftyOneLadder.leftY1, fiftyOneLadder.leftX2, fiftyOneLadder.leftY2);
+  line(fiftyOneLadder.rightX1, fiftyOneLadder.rightY1, fiftyOneLadder.rightX2, fiftyOneLadder.rightY2);
 
   firstLadderSteps();
   secondLadderSteps();
@@ -303,7 +363,7 @@ function createLadders() {
 
 function createSnakes() {
   noFill();
-  stroke("green");
+  stroke("springgreen");
   strokeWeight(5);
 
   beginShape();
@@ -329,4 +389,94 @@ function createSnakes() {
   curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
   curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
   endShape();
+
+  beginShape();
+  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.y1);
+  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.y1);
+  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY1);
+  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY2);
+  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY3);
+  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY4);
+  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY5);
+  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY6);
+  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.y2);
+  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.y2);
+  endShape();
+
+  stroke("black");
+  snakeEyes();
+}
+
+function createDie() {
+  fill("black");
+  square(die.x, die.y, squareSize);
+
+  stroke("white");
+  strokeWeight(10);
+
+  if (Math.round(dieState) === 1) {
+    point(die.x + squareSize/2, die.y + squareSize/2);
+  }
+  
+  else if (Math.round(dieState) === 2) {
+    point(die.x + squareSize/4, die.y + 3*squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+  }
+
+  else if (Math.round(dieState) === 3) {
+    point(die.x + squareSize/4, die.y + 3*squareSize/4);
+    point(die.x + squareSize/2, die.y + squareSize/2);
+    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+  }
+
+  else if (Math.round(dieState) === 4) {
+    point(die.x + squareSize/4, die.y + squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+    point(die.x + squareSize/4, die.y + 3*squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+  }
+  
+  else if (Math.round(dieState) === 5) {
+    point(die.x + squareSize/4, die.y + squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+    point(die.x + squareSize/2, die.y + squareSize/2);
+    point(die.x + squareSize/4, die.y + 3*squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+  }
+
+  else {
+    point(die.x + squareSize/4, die.y + squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+    point(die.x + squareSize/4, die.y + squareSize/2);
+    point(die.x + 3*squareSize/4, die.y + squareSize/2);
+    point(die.x + squareSize/4, die.y + 3*squareSize/4);
+    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+  }
+}
+
+function createPlayer() {
+  player = {
+    bottomX: centerBoard + 0.5*squareSize,
+    bottomY: 9.75*squareSize,
+    curveX: 0.125*squareSize,
+    top: 9.25*squareSize,
+    pointY: 9.3*squareSize,
+  };
+
+  fill("red");
+  stroke("red");
+  strokeWeight(5);
+
+  beginShape();
+  curveVertex(player.bottomX, player.bottomY);
+  curveVertex(player.bottomX, player.bottomY);
+  curveVertex(player.bottomX - player.curveX, player.top);
+  curveVertex(player.bottomX + player.curveX, player.top);
+  curveVertex(player.bottomX, player.bottomY);
+  curveVertex(player.bottomX, player.bottomY);
+  endShape();
+
+  stroke("white");
+  strokeWeight(15);
+  point(player.bottomX, player.pointY);
 }
