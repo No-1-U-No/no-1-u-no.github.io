@@ -37,8 +37,11 @@ let spreadEyes;
 let spreadEyesMore;
 
 let player;
+
 let die;
 let dieState;
+let dieRolls;
+let diePos;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -56,13 +59,14 @@ function setup() {
     squareSize = width/BOARD_SIZE;
 
     die = {
-      x: width/2 - squareSize/2,
+      x: width/2 - 0.5*squareSize,
       y: height - squareSize - height/160,
     };
   }
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
   dieState = random(1, 6);
+  dieRolls = 0;
 
   firstLadder();
   secondLadder();
@@ -91,7 +95,7 @@ function windowResized() {
     squareSize = width/BOARD_SIZE;
 
     die = {
-      x: width/2 - squareSize/2,
+      x: width/2 - 0.5*squareSize,
       y: height - squareSize - height/160,
     };
   }
@@ -408,49 +412,66 @@ function createSnakes() {
 }
 
 function createDie() {
-  fill("black");
-  square(die.x, die.y, squareSize);
+  diePos = {
+    left: die.x + 0.25*squareSize,
+    middleX: die.x + 0.5*squareSize,
+    right: die.x + 0.75*squareSize,
+    upper: die.y + 0.25*squareSize,
+    middleY: die.y + 0.5*squareSize,
+    lower: die.y + 0.75*squareSize,
+  };
+  
+  if (dieRolls % 2 === 0) {
+    stroke("black");
+    fill("black");
+  }
 
+  else {
+    stroke("red");
+    fill("red");
+  }
+
+  square(die.x, die.y, squareSize);
   stroke("white");
   strokeWeight(10);
 
   if (Math.round(dieState) === 1) {
-    point(die.x + squareSize/2, die.y + squareSize/2);
+    point(diePos.middleX, diePos.middleY);
   }
   
   else if (Math.round(dieState) === 2) {
-    point(die.x + squareSize/4, die.y + 3*squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.upper);
   }
 
   else if (Math.round(dieState) === 3) {
-    point(die.x + squareSize/4, die.y + 3*squareSize/4);
-    point(die.x + squareSize/2, die.y + squareSize/2);
-    point(die.x + 3*squareSize/4, die.y + squareSize/4);
+    point(diePos.left, diePos.lower);
+    point(diePos.middleX, diePos.middleY);
+    point(diePos.right, diePos.upper);
   }
 
   else if (Math.round(dieState) === 4) {
-    point(die.x + squareSize/4, die.y + squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + squareSize/4);
-    point(die.x + squareSize/4, die.y + 3*squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
   }
   
   else if (Math.round(dieState) === 5) {
-    point(die.x + squareSize/4, die.y + squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + squareSize/4);
-    point(die.x + squareSize/2, die.y + squareSize/2);
-    point(die.x + squareSize/4, die.y + 3*squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.middleX, diePos.middleY);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
   }
 
   else {
-    point(die.x + squareSize/4, die.y + squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + squareSize/4);
-    point(die.x + squareSize/4, die.y + squareSize/2);
-    point(die.x + 3*squareSize/4, die.y + squareSize/2);
-    point(die.x + squareSize/4, die.y + 3*squareSize/4);
-    point(die.x + 3*squareSize/4, die.y + 3*squareSize/4);
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.left, diePos.middleY);
+    point(diePos.right, diePos.middleY);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
   }
 }
 
@@ -479,4 +500,10 @@ function createPlayer() {
   stroke("white");
   strokeWeight(15);
   point(player.bottomX, player.pointY);
+}
+
+function mousePressed() {
+  if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize) {
+    dieRolls++;
+  }
 }
