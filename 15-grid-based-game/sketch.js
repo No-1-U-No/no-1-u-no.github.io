@@ -36,11 +36,12 @@ let stepNumber;
 let spreadEyes;
 let spreadEyesMore;
 
+let playerPos;
 let player;
 
 let die;
 let dieState;
-let dieRolls;
+let dieRolls = 0;
 let diePos;
 let switchDie = 0;
 let redDuration = 250;
@@ -68,7 +69,6 @@ function setup() {
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
   dieState = random(1, 6);
-  dieRolls = 0;
 
   firstLadder();
   secondLadder();
@@ -478,40 +478,66 @@ function createDie() {
 }
 
 function createPlayer() {
-  player = {
-    bottomX: centerBoard + 0.5*squareSize,
-    bottomY: 9.75*squareSize,
-    curveX: 0.125*squareSize,
-    top: 9.25*squareSize,
-    pointY: 9.3*squareSize,
-  };
+  // If I create a location marker player, this is what to do:
 
-  fill("red");
+  // player = {
+  //   bottomX: centerBoard + 0.5*squareSize,
+  //   bottomY: 9.75*squareSize,
+  //   curveX: 0.125*squareSize,
+  //   top: 9.25*squareSize,
+  //   pointY: 9.3*squareSize,
+  // };
+
+  // fill("red");
+  // stroke("red");
+  // strokeWeight(5);
+
+  // beginShape();
+  // curveVertex(player.bottomX, player.bottomY);
+  // curveVertex(player.bottomX, player.bottomY);
+  // curveVertex(player.bottomX - player.curveX, player.top);
+  // curveVertex(player.bottomX + player.curveX, player.top);
+  // curveVertex(player.bottomX, player.bottomY);
+  // curveVertex(player.bottomX, player.bottomY);
+  // endShape();
+
+  // stroke("white");
+  // strokeWeight(15);
+  // point(player.bottomX, player.pointY);
+
+  // playerPos = {
+  //   startX: centerBoard + 0.5*squareSize,
+  //   startY: 9.5*squareSize,
+  //   x: centerBoard + 0.5*squareSize,
+  //   y: 9.5*squareSize,
+  // }
+
+  playerPos = {
+    x: centerBoard + 0.5*squareSize,
+    y: 9.5*squareSize,
+  }
+
   stroke("red");
-  strokeWeight(5);
+  strokeWeight(25);
 
-  beginShape();
-  curveVertex(player.bottomX, player.bottomY);
-  curveVertex(player.bottomX, player.bottomY);
-  curveVertex(player.bottomX - player.curveX, player.top);
-  curveVertex(player.bottomX + player.curveX, player.top);
-  curveVertex(player.bottomX, player.bottomY);
-  curveVertex(player.bottomX, player.bottomY);
-  endShape();
+  if (dieRolls === 0) {
+    point(playerPos.x, playerPos.y);
+  }
 
-  stroke("white");
-  strokeWeight(15);
-  point(player.bottomX, player.pointY);
+  else {
+    playerPos.x += Math.round(dieState)*squareSize;
+    point(playerPos.x, playerPos.y);
+  }
 }
 
 function mousePressed() {
   if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize) {
-    dieRolls++;
     newDie();
   }
 }
 
 function newDie() {
+  dieRolls++;
   dieState = random(1, 6);
   switchDie = millis();
 }
