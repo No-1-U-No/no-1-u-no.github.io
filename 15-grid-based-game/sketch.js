@@ -42,6 +42,8 @@ let die;
 let dieState;
 let dieRolls;
 let diePos;
+let switchDie = 0;
+let redDuration = 250;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -420,15 +422,15 @@ function createDie() {
     middleY: die.y + 0.5*squareSize,
     lower: die.y + 0.75*squareSize,
   };
-  
-  if (dieRolls % 2 === 0) {
-    stroke("black");
-    fill("black");
+
+  if (millis() < switchDie + redDuration) {
+    stroke("red");
+    fill("red");
   }
 
   else {
-    stroke("red");
-    fill("red");
+    stroke("black");
+    fill("black");
   }
 
   square(die.x, die.y, squareSize);
@@ -505,5 +507,11 @@ function createPlayer() {
 function mousePressed() {
   if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize) {
     dieRolls++;
+    newDie();
   }
+}
+
+function newDie() {
+  dieState = random(1, 6);
+  switchDie = millis();
 }
