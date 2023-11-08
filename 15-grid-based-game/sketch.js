@@ -36,8 +36,9 @@ let stepNumber;
 let spreadEyes;
 let spreadEyesMore;
 
-let playerPos;
-let player;
+let playerX;
+let playerY;
+let spotsMoved;
 
 let die;
 let dieState;
@@ -512,21 +513,24 @@ function createPlayer() {
   //   y: 9.5*squareSize,
   // }
 
-  playerPos = {
-    x: centerBoard + 0.5*squareSize,
-    y: 9.5*squareSize,
-  }
+  playerX = centerBoard + 0.5*squareSize;
+  playerY = 9.5*squareSize;
+  spotsMoved = 0;
 
   stroke("red");
   strokeWeight(25);
 
   if (dieRolls === 0) {
-    point(playerPos.x, playerPos.y);
+    point(playerX, playerY);
   }
 
   else {
-    playerPos.x += Math.round(dieState)*squareSize;
-    point(playerPos.x, playerPos.y);
+    for (let i = spotsMoved; i < spotsMoved + Math.round(dieState); i++) {
+      playerX += squareSize;
+    }
+
+    spotsMoved += Math.round(dieState);
+    point(playerX, playerY);
   }
 }
 
