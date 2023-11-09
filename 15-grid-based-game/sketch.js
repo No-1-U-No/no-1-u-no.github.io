@@ -14,9 +14,9 @@
 const BOARD_SIZE = 10;
 
 let squareSize;
-let board = [];
+let board;
 let centerBoard;
-let numerBoard;
+let numberBoard;
 
 let elevenLadder;
 let twentyLadder;
@@ -38,7 +38,7 @@ let spreadEyesMore;
 
 let playerX;
 let playerY;
-let spotsMoved;
+let playerPos;
 
 let die;
 let dieState;
@@ -290,18 +290,20 @@ function snakeEyes() {
 }
 
 function createBoard() {
+  board = [];
+  numberBoard = 110;
+
   noStroke();
-  numerBoard = 110;
 
   for (let y = 0; y < BOARD_SIZE; y++) {
     board.push([]);
 
     if (y % 2 === 0) {
-      numerBoard -= 9;
+      numberBoard -= 9;
     }
   
     else {
-      numerBoard -= 11;
+      numberBoard -= 11;
     }
     
     for (let x = 0; x < BOARD_SIZE; x++) {
@@ -314,7 +316,7 @@ function createBoard() {
           board[y].push("brown");
         }
 
-        numerBoard--;
+        numberBoard--;
       }
 
       else {
@@ -326,21 +328,21 @@ function createBoard() {
           board[y].push("white");
         }
 
-        numerBoard++;
+        numberBoard++;
       }
       
       if (board[y][x] === "white") {
         fill("white");
         square(x*squareSize + centerBoard, y*squareSize, squareSize);
         fill("sienna");
-        text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
+        text(numberBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
       }
 
       else {
         fill("sienna");
         square(x*squareSize + centerBoard, y*squareSize, squareSize);
         fill("white");
-        text(numerBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
+        text(numberBoard, x*squareSize + centerBoard, y*squareSize, squareSize, squareSize);
       }
     }
   }
@@ -479,59 +481,9 @@ function createDie() {
 }
 
 function createPlayer() {
-  // If I create a location marker player, this is what to do:
-
-  // player = {
-  //   bottomX: centerBoard + 0.5*squareSize,
-  //   bottomY: 9.75*squareSize,
-  //   curveX: 0.125*squareSize,
-  //   top: 9.25*squareSize,
-  //   pointY: 9.3*squareSize,
-  // };
-
-  // fill("red");
-  // stroke("red");
-  // strokeWeight(5);
-
-  // beginShape();
-  // curveVertex(player.bottomX, player.bottomY);
-  // curveVertex(player.bottomX, player.bottomY);
-  // curveVertex(player.bottomX - player.curveX, player.top);
-  // curveVertex(player.bottomX + player.curveX, player.top);
-  // curveVertex(player.bottomX, player.bottomY);
-  // curveVertex(player.bottomX, player.bottomY);
-  // endShape();
-
-  // stroke("white");
-  // strokeWeight(15);
-  // point(player.bottomX, player.pointY);
-
-  // playerPos = {
-  //   startX: centerBoard + 0.5*squareSize,
-  //   startY: 9.5*squareSize,
-  //   x: centerBoard + 0.5*squareSize,
-  //   y: 9.5*squareSize,
-  // }
-
-  playerX = centerBoard + 0.5*squareSize;
-  playerY = 9.5*squareSize;
-  spotsMoved = 0;
-
   stroke("red");
   strokeWeight(25);
-
-  if (dieRolls === 0) {
-    point(playerX, playerY);
-  }
-
-  else {
-    for (let i = spotsMoved; i < spotsMoved + Math.round(dieState); i++) {
-      playerX += squareSize;
-    }
-
-    spotsMoved += Math.round(dieState);
-    point(playerX, playerY);
-  }
+  movePlayer();
 }
 
 function mousePressed() {
@@ -544,4 +496,20 @@ function newDie() {
   dieRolls++;
   dieState = random(1, 6);
   switchDie = millis();
+}
+
+function movePlayer() {
+  playerX = centerBoard + 0.5*squareSize;
+  playerY = 9.5*squareSize;
+  playerPos = 1;
+
+  if (dieRolls === 0) {
+    point(playerX, playerY);
+  }
+
+  else {
+    playerX += Math.round(dieState)*squareSize;
+    playerPos += Math.round(dieState);
+    point(playerX, playerY);
+  }
 }
