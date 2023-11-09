@@ -38,7 +38,7 @@ let spreadEyesMore;
 
 let playerX;
 let playerY;
-let playerPos;
+let playerPos = 1;
 
 let die;
 let dieState;
@@ -46,6 +46,8 @@ let dieRolls = 0;
 let diePos;
 let switchDie = 0;
 let redDuration = 250;
+
+let positions = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -70,6 +72,8 @@ function setup() {
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
   dieState = random(1, 6);
+
+  generatePositions();
 
   firstLadder();
   secondLadder();
@@ -483,33 +487,49 @@ function createDie() {
 function createPlayer() {
   stroke("red");
   strokeWeight(25);
-  movePlayer();
+  point(playerX, playerY);
 }
 
 function mousePressed() {
   if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize) {
     newDie();
+    movePlayer();
   }
 }
 
 function newDie() {
   dieRolls++;
-  dieState = random(1, 6);
+  dieState = Math.round(random(1, 6));
   switchDie = millis();
 }
 
 function movePlayer() {
-  playerX = centerBoard + 0.5*squareSize;
-  playerY = 9.5*squareSize;
-  playerPos = 1;
+  // playerX = centerBoard - 0.5*squareSize;
+  // playerY = 9.5*squareSize;
+  // playerPos = 1;
 
-  if (dieRolls === 0) {
-    point(playerX, playerY);
-  }
+  // if (dieRolls === 0) {
+  //   point(playerX, playerY);
+  // }
 
-  else {
-    playerX += Math.round(dieState)*squareSize;
-    playerPos += Math.round(dieState);
-    point(playerX, playerY);
+  // else {
+    // playerX += Math.round(dieState)*squareSize;
+    // playerPos += Math.round(dieState);
+    // point(playerX, playerY);
+  // }
+  playerPos += Math.round(dieState);
+  console.log(playerPos);
+  playerX = positions[playerPos].x;
+  playerY = positions[playerPos].y;
+  
+}
+
+function generatePositions() {
+  for (let i = 0; i < 10; i++) {
+    let position = {
+      x: centerBoard - 0.5*squareSize + Math.round(i)*squareSize,
+      y: 9.5*squareSize,
+    };
+    positions.push(position);
   }
 }
