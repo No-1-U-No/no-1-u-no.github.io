@@ -23,22 +23,23 @@ let twentyLadder;
 let fortyTwoLadder;
 let fiftyOneLadder;
 
-let twentyTwoSnake;
-let thirtySevenSnake;
-let fortyFiveSnake;
-let ninetySevenSnake;
-
 let stepCor;
 let stepXcor;
 let stepYcor;
 let stepNumber;
+
+let twentyTwoSnake;
+let thirtySevenSnake;
+let fortyFiveSnake;
+let ninetySevenSnake;
 
 let spreadEyes;
 let spreadEyesMore;
 
 let playerX;
 let playerY;
-let playerPos = 1;
+let playerPos = 0;
+let win = 100;
 
 let die;
 let dieState;
@@ -47,7 +48,11 @@ let diePos;
 let switchDie = 0;
 let redDuration = 250;
 
-let positions = [];
+let landedOnLadder = 0;
+let landedOnSnake = 0;
+
+let positions;
+let position;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -74,6 +79,8 @@ function setup() {
   dieState = random(1, 6);
 
   generatePositions();
+  playerX = positions[playerPos].x;
+  playerY = positions[playerPos].y;
 
   firstLadder();
   secondLadder();
@@ -109,6 +116,10 @@ function windowResized() {
 
   centerBoard = (width - BOARD_SIZE*squareSize)/2;
 
+  generatePositions();
+  playerX = positions[playerPos].x;
+  playerY = positions[playerPos].y;
+
   firstLadder();
   secondLadder();
   thirdLadder();
@@ -127,10 +138,140 @@ function draw() {
   createSnakes();
   createDie();
   createPlayer();
+
+  if (playerPos >= win) {
+    background(0);
+    textAlign(CENTER, CENTER);
+    textSize(squareSize);
+
+    if (landedOnLadder !== 1 && landedOnSnake !== 1) {
+      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladders and ${landedOnSnake} snakes in the time. Press Enter to play again.`, 0, 0, width, height);
+    }
+
+    else if (landedOnLadder === 1) {
+      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladder and ${landedOnSnake} snakes in the time. Press Enter to play again.`, width/2, height/2, width, height);
+    }
+
+    else {
+      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladders and ${landedOnSnake} snake in the time. Press Enter to play again.`, width/2, height/2, width, height);
+    }
+  }
+}
+
+function generatePositions() {
+  positions = [];
+
+  let position = {
+    x: centerBoard - 0.5*squareSize,
+    y: 9.5*squareSize,
+  };
+
+  positions.push(position);
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize + i*squareSize,
+      y: 9.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 9.5*squareSize - i*squareSize,
+      y: 8.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize + i*squareSize,
+      y: 7.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 9.5*squareSize - i*squareSize,
+      y: 6.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize + i*squareSize,
+      y: 5.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 9.5*squareSize - i*squareSize,
+      y: 4.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize + i*squareSize,
+      y: 3.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 9.5*squareSize - i*squareSize,
+      y: 2.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize + i*squareSize,
+      y: 1.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    let position = {
+      x: centerBoard + 9.5*squareSize - i*squareSize,
+      y: 0.5*squareSize,
+    };
+
+    positions.push(position);
+  }
+
+  for (let i = 0; i < BOARD_SIZE/2; i++) {
+    let position = {
+      x: centerBoard + 0.5*squareSize,
+      y: 0.5*squareSize,
+    };
+
+    positions.push(position);
+  }
 }
 
 function firstLadder() {
   elevenLadder = {
+    bottom: 11,
+    top: 33,
     leftX1: centerBoard + 28*squareSize/3,
     leftY1: 26*squareSize/3,
     leftX2: centerBoard + 22*squareSize/3,
@@ -144,6 +285,8 @@ function firstLadder() {
 
 function secondLadder() {
   twentyLadder = {
+    bottom: 20,
+    top: 92,
     leftX1: centerBoard + squareSize/3,
     leftY1: 25*squareSize/3,
     leftX2: centerBoard + 25*squareSize/3,
@@ -157,6 +300,8 @@ function secondLadder() {
 
 function thirdLadder() {
   fortyTwoLadder = {
+    bottom: 42,
+    top: 95,
     leftX1: centerBoard + 4*squareSize/3,
     leftY1: 16*squareSize/3,
     leftX2: centerBoard + 16*squareSize/3,
@@ -170,6 +315,8 @@ function thirdLadder() {
 
 function fourthLadder() {
   fiftyOneLadder = {
+    bottom: 51,
+    top: 71,
     leftX1: centerBoard + 9.25*squareSize,
     leftY1: 4.5*squareSize,
     leftX2: centerBoard + 9.25*squareSize,
@@ -230,6 +377,8 @@ function fourthLadderSteps() {
 
 function firstSnake() {
   twentyTwoSnake = {
+    top: 22,
+    bottom: 8,
     x1: centerBoard + 1.5*squareSize,
     y1: 7.5*squareSize,
     curveX: centerBoard + 3.5*squareSize,
@@ -241,6 +390,8 @@ function firstSnake() {
 
 function secondSnake() {
   thirtySevenSnake = {
+    top: 37,
+    bottom: 14,
     x1: centerBoard + 3.5*squareSize,
     y1: 6.5*squareSize,
     curveX: centerBoard + 4.5*squareSize,
@@ -252,6 +403,8 @@ function secondSnake() {
 
 function thirdSnake() {
   fortyFiveSnake = {
+    top: 45,
+    bottom: 12,
     x1: centerBoard + 4.5*squareSize,
     y1: 5.5*squareSize,
     curveX: centerBoard + 7.5*squareSize,
@@ -263,6 +416,8 @@ function thirdSnake() {
 
 function fourthSnake() {
   ninetySevenSnake = {
+    top: 97,
+    bottom: 25,
     x1: centerBoard + 3.5*squareSize,
     y1: 0.5*squareSize,
     curveY1: 1.5*squareSize,
@@ -284,7 +439,7 @@ function snakeEyes() {
   point(twentyTwoSnake.x1 + spreadEyes, twentyTwoSnake.y1 - spreadEyes);
 
   point(thirtySevenSnake.x1 - spreadEyes, thirtySevenSnake.y1 + spreadEyes);
-  point(thirtySevenSnake.x1 + spreadEyes, thirtySevenSnake.y1 - spreadEyes/2);
+  point(thirtySevenSnake.x1 + spreadEyes, thirtySevenSnake.y1 - spreadEyes);
 
   point(fortyFiveSnake.x1, fortyFiveSnake.y1 + spreadEyesMore);
   point(fortyFiveSnake.x1, fortyFiveSnake.y1 - spreadEyesMore);
@@ -444,29 +599,29 @@ function createDie() {
   stroke("white");
   strokeWeight(10);
 
-  if (Math.round(dieState) === 1) {
+  if (dieState === 1) {
     point(diePos.middleX, diePos.middleY);
   }
   
-  else if (Math.round(dieState) === 2) {
+  else if (dieState === 2) {
     point(diePos.left, diePos.lower);
     point(diePos.right, diePos.upper);
   }
 
-  else if (Math.round(dieState) === 3) {
+  else if (dieState === 3) {
     point(diePos.left, diePos.lower);
     point(diePos.middleX, diePos.middleY);
     point(diePos.right, diePos.upper);
   }
 
-  else if (Math.round(dieState) === 4) {
+  else if (dieState === 4) {
     point(diePos.left, diePos.upper);
     point(diePos.right, diePos.upper);
     point(diePos.left, diePos.lower);
     point(diePos.right, diePos.lower);
   }
   
-  else if (Math.round(dieState) === 5) {
+  else if (dieState === 5) {
     point(diePos.left, diePos.upper);
     point(diePos.right, diePos.upper);
     point(diePos.middleX, diePos.middleY);
@@ -504,32 +659,69 @@ function newDie() {
 }
 
 function movePlayer() {
-  // playerX = centerBoard - 0.5*squareSize;
-  // playerY = 9.5*squareSize;
-  // playerPos = 1;
-
-  // if (dieRolls === 0) {
-  //   point(playerX, playerY);
-  // }
-
-  // else {
-    // playerX += Math.round(dieState)*squareSize;
-    // playerPos += Math.round(dieState);
-    // point(playerX, playerY);
-  // }
   playerPos += Math.round(dieState);
-  console.log(playerPos);
   playerX = positions[playerPos].x;
   playerY = positions[playerPos].y;
-  
+  playerOnLadder();
+  playerOnSnake();
 }
 
-function generatePositions() {
-  for (let i = 0; i < 10; i++) {
-    let position = {
-      x: centerBoard - 0.5*squareSize + Math.round(i)*squareSize,
-      y: 9.5*squareSize,
-    };
-    positions.push(position);
+function playerOnLadder() {
+  if (playerPos === elevenLadder.bottom) {
+    playerPos = elevenLadder.top;
+    playerX = positions[elevenLadder.top].x;
+    playerY = positions[elevenLadder.top].y;
+    landedOnLadder++;
+  }
+
+  if (playerPos === twentyLadder.bottom) {
+    playerPos = twentyLadder.top;
+    playerX = positions[twentyLadder.top].x;
+    playerY = positions[twentyLadder.top].y;
+    landedOnLadder++;
+  }
+
+  if (playerPos === fortyTwoLadder.bottom) {
+    playerPos = fortyTwoLadder.top;
+    playerX = positions[fortyTwoLadder.top].x;
+    playerY = positions[fortyTwoLadder.top].y;
+    landedOnLadder++;
+  }
+
+  if (playerPos === fiftyOneLadder.bottom) {
+    playerPos = fiftyOneLadder.top;
+    playerX = positions[fiftyOneLadder.top].x;
+    playerY = positions[fiftyOneLadder.top].y;
+    landedOnLadder++;
+  }
+}
+
+function playerOnSnake() {
+  if (playerPos === twentyTwoSnake.top) {
+    playerPos = twentyTwoSnake.bottom;
+    playerX = positions[twentyTwoSnake.bottom].x;
+    playerY = positions[twentyTwoSnake.bottom].y;
+    landedOnSnake++;
+  }
+
+  if (playerPos === thirtySevenSnake.top) {
+    playerPos = thirtySevenSnake.bottom;
+    playerX = positions[thirtySevenSnake.bottom].x;
+    playerY = positions[thirtySevenSnake.bottom].y;
+    landedOnSnake++;
+  }
+
+  if (playerPos === fortyFiveSnake.top) {
+    playerPos = fortyFiveSnake.bottom;
+    playerX = positions[fortyFiveSnake.bottom].x;
+    playerY = positions[fortyFiveSnake.bottom].y;
+    landedOnSnake++;
+  }
+
+  if (playerPos === ninetySevenSnake.top) {
+    playerPos = ninetySevenSnake.bottom;
+    playerX = positions[ninetySevenSnake.bottom].x;
+    playerY = positions[ninetySevenSnake.bottom].y;
+    landedOnSnake++;
   }
 }
