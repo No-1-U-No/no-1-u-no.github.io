@@ -3,35 +3,33 @@
 // November 13, 2023
 //
 // Extra for Experts:
-// - describe what you did to take this project "above and beyond"
-
-// School computer: (1600, 775)
-
-// DO NOT function values() or displayObjects(); ONLY create global variables
-
-// Snakes & Ladders game
+// Created the snakes and the ladders from scratch
+// If you turn your head to the right 45°, the third ladder (from 42 to 95) is the standout because 
+// The fourth snake (from 97 to 25) is the standout because 
 
 const BOARD_SIZE = 10;
+
+let gameScreen = "Game";
 
 let squareSize;
 let board;
 let centerBoard;
 let numberBoard;
 
-let elevenLadder;
-let twentyLadder;
-let fortyTwoLadder;
-let fiftyOneLadder;
+let ladder1;
+let ladder2;
+let ladder3;
+let ladder4;
 
-let stepCor;
-let stepXcor;
-let stepYcor;
-let stepNumber;
+let moveStep;
+let moveStepX;
+let moveStepY;
+let stepsNeeded;
 
-let twentyTwoSnake;
-let thirtySevenSnake;
-let fortyFiveSnake;
-let ninetySevenSnake;
+let snake1;
+let snake2;
+let snake3;
+let snake4;
 
 let spreadEyes;
 let spreadEyesMore;
@@ -39,12 +37,13 @@ let spreadEyesMore;
 let playerX;
 let playerY;
 let playerPos = 0;
-let win = 100;
+let winPos = 100;
 
 let die;
+let diePos;
 let dieState;
 let dieRolls = 0;
-let diePos;
+
 let switchDie = 0;
 let redDuration = 250;
 
@@ -52,7 +51,20 @@ let landedOnLadder = 0;
 let landedOnSnake = 0;
 
 let positions;
-let position;
+let position0;
+let positions1to10;
+let positions11to20;
+let positions21to30;
+let positions31to40;
+let positions41to50;
+let positions51to60;
+let positions61to70;
+let positions71to80;
+let positions81to90;
+let positions91to100;
+let position100;
+
+let winText;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -139,137 +151,123 @@ function draw() {
   createDie();
   createPlayer();
 
-  if (playerPos >= win) {
-    background(0);
-    textAlign(CENTER, CENTER);
-    textSize(squareSize);
-
-    if (landedOnLadder !== 1 && landedOnSnake !== 1) {
-      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladders and ${landedOnSnake} snakes in the time. Press Enter to play again.`, 0, 0, width, height);
-    }
-
-    else if (landedOnLadder === 1) {
-      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladder and ${landedOnSnake} snakes in the time. Press Enter to play again.`, width/2, height/2, width, height);
-    }
-
-    else {
-      text(`Congratulations! You won the game in ${dieRolls} moves! You also landed on ${landedOnLadder} ladders and ${landedOnSnake} snake in the time. Press Enter to play again.`, width/2, height/2, width, height);
-    }
+  if (playerPos >= winPos) {
+    createWinStats();
   }
 }
 
 function generatePositions() {
   positions = [];
 
-  let position = {
+  position0 = {
     x: centerBoard - 0.5*squareSize,
     y: 9.5*squareSize,
   };
 
-  positions.push(position);
+  positions.push(position0);
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 0.5*squareSize + i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions1to10 = {
+      x: centerBoard + 0.5*squareSize + currentPos*squareSize,
       y: 9.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions1to10);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 9.5*squareSize - i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions11to20 = {
+      x: centerBoard + 9.5*squareSize - currentPos*squareSize,
       y: 8.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions11to20);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 0.5*squareSize + i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions21to30 = {
+      x: centerBoard + 0.5*squareSize + currentPos*squareSize,
       y: 7.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions21to30);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 9.5*squareSize - i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions31to40 = {
+      x: centerBoard + 9.5*squareSize - currentPos*squareSize,
       y: 6.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions31to40);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 0.5*squareSize + i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions41to50 = {
+      x: centerBoard + 0.5*squareSize + currentPos*squareSize,
       y: 5.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions41to50);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 9.5*squareSize - i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions51to60 = {
+      x: centerBoard + 9.5*squareSize - currentPos*squareSize,
       y: 4.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions51to60);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 0.5*squareSize + i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions61to70 = {
+      x: centerBoard + 0.5*squareSize + currentPos*squareSize,
       y: 3.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions61to70);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 9.5*squareSize - i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions71to80 = {
+      x: centerBoard + 9.5*squareSize - currentPos*squareSize,
       y: 2.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions71to80);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 0.5*squareSize + i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions81to90 = {
+      x: centerBoard + 0.5*squareSize + currentPos*squareSize,
       y: 1.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions81to90);
   }
 
-  for (let i = 0; i < BOARD_SIZE; i++) {
-    let position = {
-      x: centerBoard + 9.5*squareSize - i*squareSize,
+  for (let currentPos = 0; currentPos < BOARD_SIZE; currentPos++) {
+    positions91to100 = {
+      x: centerBoard + 9.5*squareSize - currentPos*squareSize,
       y: 0.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(positions91to100);
   }
 
-  for (let i = 0; i < BOARD_SIZE/2; i++) {
-    let position = {
+  for (let currentPos = 0; currentPos < BOARD_SIZE/2; currentPos++) {
+    position100 = {
       x: centerBoard + 0.5*squareSize,
       y: 0.5*squareSize,
     };
 
-    positions.push(position);
+    positions.push(position100);
   }
 }
 
 function firstLadder() {
-  elevenLadder = {
+  ladder1 = {
     bottom: 11,
     top: 33,
     leftX1: centerBoard + 28*squareSize/3,
@@ -284,7 +282,7 @@ function firstLadder() {
 }
 
 function secondLadder() {
-  twentyLadder = {
+  ladder2 = {
     bottom: 20,
     top: 92,
     leftX1: centerBoard + squareSize/3,
@@ -299,7 +297,7 @@ function secondLadder() {
 }
 
 function thirdLadder() {
-  fortyTwoLadder = {
+  ladder3 = {
     bottom: 42,
     top: 95,
     leftX1: centerBoard + 4*squareSize/3,
@@ -314,7 +312,7 @@ function thirdLadder() {
 }
 
 function fourthLadder() {
-  fiftyOneLadder = {
+  ladder4 = {
     bottom: 51,
     top: 71,
     leftX1: centerBoard + 9.25*squareSize,
@@ -329,54 +327,50 @@ function fourthLadder() {
 }
 
 function firstLadderSteps() {
-  stepCor = squareSize/5;
-  stepNumber = 0;
+  moveStep = squareSize/5;
+  stepsNeeded = 10;
 
-  while (stepNumber < 9) {
-    line(elevenLadder.leftX1 - stepCor, elevenLadder.leftY1 - stepCor, elevenLadder.rightX1 - stepCor, elevenLadder.rightY1 - stepCor);
-    stepCor += squareSize/5;
-    stepNumber++;
+  for (let stepNumber = 1; stepNumber < stepsNeeded; stepNumber++) {
+    line(ladder1.leftX1 - moveStep, ladder1.leftY1 - moveStep, ladder1.rightX1 - moveStep, ladder1.rightY1 - moveStep);
+    moveStep += squareSize/5;
   }
 }
 
 function secondLadderSteps() {
-  stepCor = squareSize/5;
-  stepNumber = 0;
+  moveStep = squareSize/5;
+  stepsNeeded = 40;
 
-  while (stepNumber < 39) {
-    line(twentyLadder.leftX1 + stepCor, twentyLadder.leftY1 - stepCor, twentyLadder.rightX1 + stepCor, twentyLadder.rightY1 - stepCor);
-    stepCor += squareSize/5;
-    stepNumber++;
+  for (let stepNumber = 1; stepNumber < stepsNeeded; stepNumber++) {
+    line(ladder2.leftX1 + moveStep, ladder2.leftY1 - moveStep, ladder2.rightX1 + moveStep, ladder2.rightY1 - moveStep);
+    moveStep += squareSize/5;
   }
 }
 
 function thirdLadderSteps() {
-  stepCor = squareSize/5;
-  stepXcor = 0;
-  stepYcor = -squareSize/25;
-  stepNumber = 0;
+  moveStep = squareSize/5;
+  moveStepX = 0;
+  moveStepY = -squareSize/25;
+  stepsNeeded = 25;
 
-  while (stepNumber < 24) {
-    line(fortyTwoLadder.leftX1 + stepCor + stepXcor, fortyTwoLadder.leftY1 - stepCor + stepYcor, fortyTwoLadder.rightX1 + stepCor + stepXcor, fortyTwoLadder.rightY1 - stepCor + stepYcor);
-    stepCor += squareSize/5;
-    stepXcor -= squareSize/25;
-    stepNumber++;
+  for (let stepNumber = 1; stepNumber < stepsNeeded; stepNumber++) {
+    line(ladder3.leftX1 + moveStep + moveStepX, ladder3.leftY1 - moveStep + moveStepY, ladder3.rightX1 + moveStep + moveStepX, ladder3.rightY1 - moveStep + moveStepY);
+    moveStep += squareSize/5;
+    moveStepX += -squareSize/25;
   }
 }
 
 function fourthLadderSteps() {
-  stepCor = squareSize/5;
-  stepNumber = 0;
+  moveStep = squareSize/5;
+  stepsNeeded = 10;
   
-  while (stepNumber < 9) {
-    line(fiftyOneLadder.leftX1, fiftyOneLadder.leftY1 - stepCor, fiftyOneLadder.rightX1, fiftyOneLadder.rightY1 - stepCor);
-    stepCor += squareSize/5;
-    stepNumber++;
+  for (let stepNumber = 1; stepNumber < stepsNeeded; stepNumber++) {
+    line(ladder4.leftX1, ladder4.leftY1 - moveStep, ladder4.rightX1, ladder4.rightY1 - moveStep);
+    moveStep += squareSize/5;
   }
 }
 
 function firstSnake() {
-  twentyTwoSnake = {
+  snake1 = {
     top: 22,
     bottom: 8,
     x1: centerBoard + 1.5*squareSize,
@@ -389,7 +383,7 @@ function firstSnake() {
 }
 
 function secondSnake() {
-  thirtySevenSnake = {
+  snake2 = {
     top: 37,
     bottom: 14,
     x1: centerBoard + 3.5*squareSize,
@@ -402,7 +396,7 @@ function secondSnake() {
 }
 
 function thirdSnake() {
-  fortyFiveSnake = {
+  snake3 = {
     top: 45,
     bottom: 12,
     x1: centerBoard + 4.5*squareSize,
@@ -415,7 +409,7 @@ function thirdSnake() {
 }
 
 function fourthSnake() {
-  ninetySevenSnake = {
+  snake4 = {
     top: 97,
     bottom: 25,
     x1: centerBoard + 3.5*squareSize,
@@ -435,23 +429,63 @@ function snakeEyes() {
   spreadEyes = squareSize/35;
   spreadEyesMore = squareSize/25;
 
-  point(twentyTwoSnake.x1 - spreadEyes, twentyTwoSnake.y1 + spreadEyes);
-  point(twentyTwoSnake.x1 + spreadEyes, twentyTwoSnake.y1 - spreadEyes);
+  point(snake1.x1 - spreadEyes, snake1.y1 + spreadEyes);
+  point(snake1.x1 + spreadEyes, snake1.y1 - spreadEyes);
 
-  point(thirtySevenSnake.x1 - spreadEyes, thirtySevenSnake.y1 + spreadEyes);
-  point(thirtySevenSnake.x1 + spreadEyes, thirtySevenSnake.y1 - spreadEyes);
+  point(snake2.x1 - spreadEyes, snake2.y1 + spreadEyes);
+  point(snake2.x1 + spreadEyes, snake2.y1 - spreadEyes);
 
-  point(fortyFiveSnake.x1, fortyFiveSnake.y1 + spreadEyesMore);
-  point(fortyFiveSnake.x1, fortyFiveSnake.y1 - spreadEyesMore);
+  point(snake3.x1, snake3.y1 + spreadEyesMore);
+  point(snake3.x1, snake3.y1 - spreadEyesMore);
 
-  point(ninetySevenSnake.x1 - spreadEyesMore, ninetySevenSnake.y1);
-  point(ninetySevenSnake.x1 + spreadEyesMore, ninetySevenSnake.y1);
+  point(snake4.x1 - spreadEyesMore, snake4.y1);
+  point(snake4.x1 + spreadEyesMore, snake4.y1);
+}
+
+function numberDie() {
+  if (dieState === 1) {
+    point(diePos.middleX, diePos.middleY);
+  }
+  
+  else if (dieState === 2) {
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.upper);
+  }
+
+  else if (dieState === 3) {
+    point(diePos.left, diePos.lower);
+    point(diePos.middleX, diePos.middleY);
+    point(diePos.right, diePos.upper);
+  }
+
+  else if (dieState === 4) {
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
+  }
+  
+  else if (dieState === 5) {
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.middleX, diePos.middleY);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
+  }
+
+  else {
+    point(diePos.left, diePos.upper);
+    point(diePos.right, diePos.upper);
+    point(diePos.left, diePos.middleY);
+    point(diePos.right, diePos.middleY);
+    point(diePos.left, diePos.lower);
+    point(diePos.right, diePos.lower);
+  }
 }
 
 function createBoard() {
   board = [];
   numberBoard = 110;
-
   noStroke();
 
   for (let y = 0; y < BOARD_SIZE; y++) {
@@ -511,17 +545,17 @@ function createLadders() {
   stroke("blue");
   strokeWeight(5);
 
-  line(elevenLadder.leftX1, elevenLadder.leftY1, elevenLadder.leftX2, elevenLadder.leftY2);
-  line(elevenLadder.rightX1, elevenLadder.rightY1, elevenLadder.rightX2, elevenLadder.rightY2);
+  line(ladder1.leftX1, ladder1.leftY1, ladder1.leftX2, ladder1.leftY2);
+  line(ladder1.rightX1, ladder1.rightY1, ladder1.rightX2, ladder1.rightY2);
 
-  line(twentyLadder.leftX1, twentyLadder.leftY1, twentyLadder.leftX2, twentyLadder.leftY2);
-  line(twentyLadder.rightX1, twentyLadder.rightY1, twentyLadder.rightX2, twentyLadder.rightY2);
+  line(ladder2.leftX1, ladder2.leftY1, ladder2.leftX2, ladder2.leftY2);
+  line(ladder2.rightX1, ladder2.rightY1, ladder2.rightX2, ladder2.rightY2);
   
-  line(fortyTwoLadder.leftX1, fortyTwoLadder.leftY1, fortyTwoLadder.leftX2, fortyTwoLadder.leftY2);
-  line(fortyTwoLadder.rightX1, fortyTwoLadder.rightY1, fortyTwoLadder.rightX2, fortyTwoLadder.rightY2);
+  line(ladder3.leftX1, ladder3.leftY1, ladder3.leftX2, ladder3.leftY2);
+  line(ladder3.rightX1, ladder3.rightY1, ladder3.rightX2, ladder3.rightY2);
 
-  line(fiftyOneLadder.leftX1, fiftyOneLadder.leftY1, fiftyOneLadder.leftX2, fiftyOneLadder.leftY2);
-  line(fiftyOneLadder.rightX1, fiftyOneLadder.rightY1, fiftyOneLadder.rightX2, fiftyOneLadder.rightY2);
+  line(ladder4.leftX1, ladder4.leftY1, ladder4.leftX2, ladder4.leftY2);
+  line(ladder4.rightX1, ladder4.rightY1, ladder4.rightX2, ladder4.rightY2);
 
   firstLadderSteps();
   secondLadderSteps();
@@ -535,40 +569,40 @@ function createSnakes() {
   strokeWeight(5);
 
   beginShape();
-  curveVertex(twentyTwoSnake.x1, twentyTwoSnake.y1);
-  curveVertex(twentyTwoSnake.x1, twentyTwoSnake.y1);
-  curveVertex(twentyTwoSnake.curveX, twentyTwoSnake.curveY);
-  curveVertex(twentyTwoSnake.x2, twentyTwoSnake.y2);
-  curveVertex(twentyTwoSnake.x2, twentyTwoSnake.y2);
+  curveVertex(snake1.x1, snake1.y1);
+  curveVertex(snake1.x1, snake1.y1);
+  curveVertex(snake1.curveX, snake1.curveY);
+  curveVertex(snake1.x2, snake1.y2);
+  curveVertex(snake1.x2, snake1.y2);
   endShape();
 
   beginShape();
-  curveVertex(thirtySevenSnake.x1, thirtySevenSnake.y1);
-  curveVertex(thirtySevenSnake.x1, thirtySevenSnake.y1);
-  curveVertex(thirtySevenSnake.curveX, thirtySevenSnake.curveY);
-  curveVertex(thirtySevenSnake.x2, thirtySevenSnake.y2);
-  curveVertex(thirtySevenSnake.x2, thirtySevenSnake.y2);
+  curveVertex(snake2.x1, snake2.y1);
+  curveVertex(snake2.x1, snake2.y1);
+  curveVertex(snake2.curveX, snake2.curveY);
+  curveVertex(snake2.x2, snake2.y2);
+  curveVertex(snake2.x2, snake2.y2);
   endShape();
 
   beginShape();
-  curveVertex(fortyFiveSnake.x1, fortyFiveSnake.y1);
-  curveVertex(fortyFiveSnake.x1, fortyFiveSnake.y1);
-  curveVertex(fortyFiveSnake.curveX, fortyFiveSnake.curveY);
-  curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
-  curveVertex(fortyFiveSnake.x2, fortyFiveSnake.y2);
+  curveVertex(snake3.x1, snake3.y1);
+  curveVertex(snake3.x1, snake3.y1);
+  curveVertex(snake3.curveX, snake3.curveY);
+  curveVertex(snake3.x2, snake3.y2);
+  curveVertex(snake3.x2, snake3.y2);
   endShape();
 
   beginShape();
-  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.y1);
-  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.y1);
-  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY1);
-  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY2);
-  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY3);
-  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY4);
-  curveVertex(ninetySevenSnake.x1, ninetySevenSnake.curveY5);
-  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.curveY6);
-  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.y2);
-  curveVertex(ninetySevenSnake.x2, ninetySevenSnake.y2);
+  curveVertex(snake4.x1, snake4.y1);
+  curveVertex(snake4.x1, snake4.y1);
+  curveVertex(snake4.x1, snake4.curveY1);
+  curveVertex(snake4.x2, snake4.curveY2);
+  curveVertex(snake4.x2, snake4.curveY3);
+  curveVertex(snake4.x1, snake4.curveY4);
+  curveVertex(snake4.x1, snake4.curveY5);
+  curveVertex(snake4.x2, snake4.curveY6);
+  curveVertex(snake4.x2, snake4.y2);
+  curveVertex(snake4.x2, snake4.y2);
   endShape();
 
   stroke("black");
@@ -598,45 +632,7 @@ function createDie() {
   square(die.x, die.y, squareSize);
   stroke("white");
   strokeWeight(10);
-
-  if (dieState === 1) {
-    point(diePos.middleX, diePos.middleY);
-  }
-  
-  else if (dieState === 2) {
-    point(diePos.left, diePos.lower);
-    point(diePos.right, diePos.upper);
-  }
-
-  else if (dieState === 3) {
-    point(diePos.left, diePos.lower);
-    point(diePos.middleX, diePos.middleY);
-    point(diePos.right, diePos.upper);
-  }
-
-  else if (dieState === 4) {
-    point(diePos.left, diePos.upper);
-    point(diePos.right, diePos.upper);
-    point(diePos.left, diePos.lower);
-    point(diePos.right, diePos.lower);
-  }
-  
-  else if (dieState === 5) {
-    point(diePos.left, diePos.upper);
-    point(diePos.right, diePos.upper);
-    point(diePos.middleX, diePos.middleY);
-    point(diePos.left, diePos.lower);
-    point(diePos.right, diePos.lower);
-  }
-
-  else {
-    point(diePos.left, diePos.upper);
-    point(diePos.right, diePos.upper);
-    point(diePos.left, diePos.middleY);
-    point(diePos.right, diePos.middleY);
-    point(diePos.left, diePos.lower);
-    point(diePos.right, diePos.lower);
-  }
+  numberDie();
 }
 
 function createPlayer() {
@@ -646,7 +642,7 @@ function createPlayer() {
 }
 
 function mousePressed() {
-  if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize) {
+  if (mouseX >= die.x && mouseX <= die.x + squareSize && mouseY >= die.y && mouseY <= die.y + squareSize && gameScreen === "Game") {
     newDie();
     movePlayer();
   }
@@ -659,7 +655,7 @@ function newDie() {
 }
 
 function movePlayer() {
-  playerPos += Math.round(dieState);
+  playerPos += dieState;
   playerX = positions[playerPos].x;
   playerY = positions[playerPos].y;
   playerOnLadder();
@@ -667,61 +663,95 @@ function movePlayer() {
 }
 
 function playerOnLadder() {
-  if (playerPos === elevenLadder.bottom) {
-    playerPos = elevenLadder.top;
-    playerX = positions[elevenLadder.top].x;
-    playerY = positions[elevenLadder.top].y;
+  if (playerPos === ladder1.bottom) {
+    playerPos = ladder1.top;
+    playerX = positions[ladder1.top].x;
+    playerY = positions[ladder1.top].y;
     landedOnLadder++;
   }
 
-  if (playerPos === twentyLadder.bottom) {
-    playerPos = twentyLadder.top;
-    playerX = positions[twentyLadder.top].x;
-    playerY = positions[twentyLadder.top].y;
+  if (playerPos === ladder2.bottom) {
+    playerPos = ladder2.top;
+    playerX = positions[ladder2.top].x;
+    playerY = positions[ladder2.top].y;
     landedOnLadder++;
   }
 
-  if (playerPos === fortyTwoLadder.bottom) {
-    playerPos = fortyTwoLadder.top;
-    playerX = positions[fortyTwoLadder.top].x;
-    playerY = positions[fortyTwoLadder.top].y;
+  if (playerPos === ladder3.bottom) {
+    playerPos = ladder3.top;
+    playerX = positions[ladder3.top].x;
+    playerY = positions[ladder3.top].y;
     landedOnLadder++;
   }
 
-  if (playerPos === fiftyOneLadder.bottom) {
-    playerPos = fiftyOneLadder.top;
-    playerX = positions[fiftyOneLadder.top].x;
-    playerY = positions[fiftyOneLadder.top].y;
+  if (playerPos === ladder4.bottom) {
+    playerPos = ladder4.top;
+    playerX = positions[ladder4.top].x;
+    playerY = positions[ladder4.top].y;
     landedOnLadder++;
   }
 }
 
 function playerOnSnake() {
-  if (playerPos === twentyTwoSnake.top) {
-    playerPos = twentyTwoSnake.bottom;
-    playerX = positions[twentyTwoSnake.bottom].x;
-    playerY = positions[twentyTwoSnake.bottom].y;
+  if (playerPos === snake1.top) {
+    playerPos = snake1.bottom;
+    playerX = positions[snake1.bottom].x;
+    playerY = positions[snake1.bottom].y;
     landedOnSnake++;
   }
 
-  if (playerPos === thirtySevenSnake.top) {
-    playerPos = thirtySevenSnake.bottom;
-    playerX = positions[thirtySevenSnake.bottom].x;
-    playerY = positions[thirtySevenSnake.bottom].y;
+  if (playerPos === snake2.top) {
+    playerPos = snake2.bottom;
+    playerX = positions[snake2.bottom].x;
+    playerY = positions[snake2.bottom].y;
     landedOnSnake++;
   }
 
-  if (playerPos === fortyFiveSnake.top) {
-    playerPos = fortyFiveSnake.bottom;
-    playerX = positions[fortyFiveSnake.bottom].x;
-    playerY = positions[fortyFiveSnake.bottom].y;
+  if (playerPos === snake3.top) {
+    playerPos = snake3.bottom;
+    playerX = positions[snake3.bottom].x;
+    playerY = positions[snake3.bottom].y;
     landedOnSnake++;
   }
 
-  if (playerPos === ninetySevenSnake.top) {
-    playerPos = ninetySevenSnake.bottom;
-    playerX = positions[ninetySevenSnake.bottom].x;
-    playerY = positions[ninetySevenSnake.bottom].y;
+  if (playerPos === snake4.top) {
+    playerPos = snake4.bottom;
+    playerX = positions[snake4.bottom].x;
+    playerY = positions[snake4.bottom].y;
     landedOnSnake++;
+  }
+}
+
+function createWinStats() {
+  winText = {
+    textSize: 1.25*squareSize,
+    x: 0,
+    y: 0,
+    width: width,
+    height: height,
+  };
+
+  gameScreen = "Win";
+  background(0);
+  
+  textAlign(CENTER, CENTER);
+  textSize(winText.textSize);
+  noStroke();
+  fill("red");
+
+  if (landedOnLadder !== 1 && landedOnSnake !== 1) {
+    text(`Congratulations on winning the game in ${dieRolls} moves! You landed on ${landedOnLadder} ladders and ${landedOnSnake} snakes in the time.`, winText.x, winText.y, winText.width, winText.height);
+  }
+
+  else if (landedOnLadder === 1 && landedOnSnake !== 1) {
+    text(`Congratulations on winning the game in ${dieRolls} moves! You landed on ${landedOnLadder} ladder and ${landedOnSnake} snakes in the time.`, winText.x, winText.y, winText.width, winText.height);
+  }
+
+  else if (landedOnLadder !== 1 && landedOnSnake === 1) {
+    text(`Congratulations on winning the game in ${dieRolls} moves! You landed on ${landedOnLadder} ladders and ${landedOnSnake} snake in the time.`, winText.x, winText.y, winText.width, winText.height);
+  }
+
+  else {
+    text(`Congratulations on winning the game in ${dieRolls} moves! You landed on ${landedOnLadder} ladder and ${landedOnSnake} snake in the time.`, winText.x, winText.y, winText.width, winText.height);
   }
 }
