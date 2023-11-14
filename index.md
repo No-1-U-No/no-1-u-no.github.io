@@ -12,8 +12,11 @@
 - [Grid Neighbours](11-neighbours)
 - [Game of Life](12-game-of-life)
 - [Character in Grid](13-character-in-grid)
+- [Platformer](14-platformer)
+- [Dog OOP](16-dog-oop)
+- [Walker OOP](17-walker-oop)
 
 ## Projects
 - [Interactive Scene](02-scene)
 - [Arrays/Objects Assignment](04-arrays-objects-assignment)
-- [Grid-Based Game](14-grid-based-game)
+- [Grid-Based Game](15-grid-based-game)
