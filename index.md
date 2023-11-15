@@ -15,6 +15,7 @@
 - [Platformer](14-platformer)
 - [Dog OOP](16-dog-oop)
 - [Walker OOP](17-walker-oop)
+- [Ball OOP](18-ball-oop)
 
 ## Projects
 - [Interactive Scene](02-scene)
