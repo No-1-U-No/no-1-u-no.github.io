@@ -21,6 +21,7 @@
 - [Inheritance OOP](21-inheritance)
 - [Collision Demo](22-collision)
 - [p5play Template](23-p5play)
+- [Recursive Circles](24-circle-recursion)
 
 ## Projects
 - [Interactive Scene](02-scene)
