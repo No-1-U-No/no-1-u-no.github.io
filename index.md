@@ -22,6 +22,7 @@
 - [Collision Demo](22-collision)
 - [p5play Template](23-p5play)
 - [Recursive Circles](24-circle-recursion)
+- [Sierpinski Triangle](25-sierpinski)
 
 ## Projects
 - [Interactive Scene](02-scene)
